@@ -1,0 +1,35 @@
+<search (startSearch)="onStartedSearch($event)"></search>
+<button (click)="Login()">Login</button>
+<div class="tabs">
+   <div class="tab">
+       <input type="radio" id="tab-4" name="tab-group-2" checked>
+       <label for="tab-4">Albom</label>
+       
+       <div class="content">
+           <albom></albom>
+       </div> 
+   </div>
+    
+    <div class="tab">
+       <input type="radio" id="tab-6" name="tab-group-2">
+       <label for="tab-6">Tab Three</label>
+       <search-result [searchParams]="searchWord"></search-result>
+   </div>
+    
+</div>
+    
+    
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
+
+    <footer>
+      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
+      <div>
+        <a [href]="url">
+          <img [src]="angularclassLogo" width="25%">
+        </a>
+      </div>
+    </footer>
