@@ -60,6 +60,7 @@ declare module 'modern-lru' {
 declare var ENV: string;
 declare var HMR: boolean;
 declare var System: SystemJS;
+declare var VK: any;
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;

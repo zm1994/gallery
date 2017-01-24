@@ -7,6 +7,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { AppState } from './app.service';
+import { VkService } from './services/vk_service/vk.service'
+
 
 /*
  * App Component
@@ -18,54 +20,53 @@ import { AppState } from './app.service';
   styleUrls: [
     './app.component.css'
   ],
-  template: `
-    <nav>
-      <a [routerLink]=" ['./'] " routerLinkActive="active">
-        Index
-      </a>
-      <a [routerLink]=" ['./home'] " routerLinkActive="active">
-        Home
-      </a>
-      <a [routerLink]=" ['./detail'] " routerLinkActive="active">
-        Detail
-      </a>
-      <a [routerLink]=" ['./barrel'] " routerLinkActive="active">
-        Barrel
-      </a>
-      <a [routerLink]=" ['./about'] " routerLinkActive="active">
-        About
-      </a>
-    </nav>
-
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>
-  `
+  templateUrl: 'app.component.html',
+  providers: [VkService]
 })
 export class AppComponent implements OnInit {
+   searchWord: string = '';
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
   public url = 'https://twitter.com/AngularClass';
 
   constructor(
-    public appState: AppState
+    public appState: AppState,
+    private vkServ: VkService
   ) {}
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);
   }
 
+  Login(){
+    this.vkServ.vkLogin();
+  }
+  onStartedSearch(event: string){
+    this.searchWord = event;
+    console.log(this.searchWord);
+  }
+
+  vkLogin() {
+        console.log('login')
+        VK.init({
+            apiId: 5832573,
+        });
+        VK.Auth.getLoginStatus(this.getVkStatus);
+        
+        VK.Auth.login(this.getVkStatus, 4);
+    };
+
+    getVkStatus = (response) => {
+        if (response.session) {
+            //this.isLogged = true;
+            localStorage.setItem("sid", response.session.sid);
+            localStorage.setItem("mid", response.session.mid);
+            console.log(VK)
+        } else {
+          console.log(VK)
+            //this.isLogged = false;
+        }
+    } 
 }
 
 /*
@@ -75,3 +76,23 @@ export class AppComponent implements OnInit {
  * For help or questions please contact us at @AngularClass on twitter
  * or our chat on Slack at https://AngularClass.com/slack-join
  */
+// <md-tab-group>
+//   <md-tab>
+//     <template md-tab-label>
+//       The <em>best</em> pasta
+//     </template>
+//     <about></about>
+//   </md-tab>
+//   <md-tab>
+//     <template md-tab-label>
+//       The worst sushi
+//     </template>
+//     <p>Test</p>
+//   </md-tab>
+//   <md-tab>
+//     <template md-tab-label>
+//       The worst sushi
+//     </template>
+//     <p>Test</p>
+//   </md-tab>
+// </md-tab-group>

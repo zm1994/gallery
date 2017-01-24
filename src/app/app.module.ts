@@ -14,6 +14,8 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
+import { MaterialModule } from '@angular/material';
+import 'hammerjs';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -28,6 +30,11 @@ import { HomeComponent } from './home';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
+import { SearchComponent } from './search/search.component';
+import { SearchResultComponent } from './search_result/search_result.component'
+import { AlbomComponent } from './albom/albom.component';
+import { VkService } from './services/vk_service/vk.service'
+import { WindowRef } from './services/window_reference.service'
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -52,19 +59,25 @@ type StoreType = {
   declarations: [
     AppComponent,
     AboutComponent,
+    AlbomComponent,
     HomeComponent,
     NoContentComponent,
+    SearchComponent,
+    SearchResultComponent,
     XLargeDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
+    MaterialModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    VkService,
+    WindowRef,
   ]
 })
 export class AppModule {
