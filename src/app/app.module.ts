@@ -34,7 +34,7 @@ import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search_result/search_result.component'
 import { AlbomComponent } from './albom/albom.component';
 import { VkService } from './services/vk_service/vk.service'
-import { WindowRef } from './services/window_reference.service'
+import { ScrollListener } from './shared/scroll.listener'
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -77,7 +77,7 @@ type StoreType = {
     ENV_PROVIDERS,
     APP_PROVIDERS,
     VkService,
-    WindowRef,
+    ScrollListener
   ]
 })
 export class AppModule {

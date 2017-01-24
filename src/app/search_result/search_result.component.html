@@ -1,1 +1,5 @@
-<p>Search result</p>
+<div *ngIf="photos">
+    <div *ngFor="let photo of arrPhoto">
+        <img src="{{photo.src}}"/>
+    </div>
+</div>

@@ -1,46 +1,39 @@
 import { Component, Injectable, OnInit } from '@angular/core'
-import { WindowRef } from '../window_reference.service'
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { Image } from '../../models/image.model'
 
 declare var VK: any;
 
 @Component({
-    selector: 'vk_service',
-    providers: [WindowRef]
+    selector: 'vk_service'
 })
 
 @Injectable()
 export class VkService implements OnInit{
     isLogged: boolean;
-    client_id: number;
+   
     login_access: number; // for access to photo by login set number 4
 
-    constructor(private windRef: WindowRef) {
+    constructor() {
         this.isLogged = false;
-        this.client_id = 5832573;
         this.login_access = 4;
     };
 
     ngOnInit() {
-        
-        VK.init({
-            apiId: this.client_id,
-        });
         VK.Auth.getLoginStatus(this.getVkStatus);
     }
 
-    vkSearchPhoto(keyword: string){
-       
-        console.log('ku ku')
-         console.log(this.windRef.nativeWindow)
-         console.log(this.windRef.nativeWindow.VK)
-        VK.api('photos.search', {"apiId": this.client_id, "q": keyword, "count": "10"}, (data) => {
-            console.log(data);
-        })
+    vkSearchPhoto(params, callbackFunction){
+        VK.api('photos.search', {params}, callbackFunction)
+    }
+
+    resultRespone(response: any): Observable<Image[]> {
+        return response.map((res) => <Image[]> res);
     }
 
     vkLogin() {
-        console.log('login')
-        console.log(this.windRef.nativeWindow)
         VK.Auth.login(this.getVkStatus, this.login_access);
     };
 

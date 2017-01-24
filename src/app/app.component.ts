@@ -3,11 +3,13 @@
  */
 import {
   Component,
+  Renderer,
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { AppState } from './app.service';
 import { VkService } from './services/vk_service/vk.service'
+import { Observable } from 'rxjs/Observable'
 
 
 /*
@@ -17,56 +19,40 @@ import { VkService } from './services/vk_service/vk.service'
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
+  styleUrls: [ './app.component.css' ],
   templateUrl: 'app.component.html',
   providers: [VkService]
 })
+
 export class AppComponent implements OnInit {
-   searchWord: string = '';
+  searchWord: string = '';
+  client_id: number;
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
   public url = 'https://twitter.com/AngularClass';
 
   constructor(
     public appState: AppState,
-    private vkServ: VkService
-  ) {}
+    private renderer: Renderer,
+    private vkServ: VkService) {
+    this.client_id = 5832573;
+  }
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+     VK.init({
+            apiId: this.client_id,
+        });
   }
+
 
   Login(){
     this.vkServ.vkLogin();
   }
+  
   onStartedSearch(event: string){
     this.searchWord = event;
-    console.log(this.searchWord);
+    
   }
-
-  vkLogin() {
-        console.log('login')
-        VK.init({
-            apiId: 5832573,
-        });
-        VK.Auth.getLoginStatus(this.getVkStatus);
-        
-        VK.Auth.login(this.getVkStatus, 4);
-    };
-
-    getVkStatus = (response) => {
-        if (response.session) {
-            //this.isLogged = true;
-            localStorage.setItem("sid", response.session.sid);
-            localStorage.setItem("mid", response.session.mid);
-            console.log(VK)
-        } else {
-          console.log(VK)
-            //this.isLogged = false;
-        }
-    } 
 }
 
 /*
