@@ -16,7 +16,6 @@ export class SearchComponent {
     }
 
     onEnterInput(){
-        if(this.keyword.length > 0)
-            this.startSearch.emit(this.keyword);
+        this.startSearch.emit(this.keyword);
     }
 }

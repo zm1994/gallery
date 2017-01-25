@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, HostListener, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { VkService } from '../services/vk_service/vk.service'
 import { ScrollListener } from '../shared/scroll.listener'
 import { Image } from '../models/image.model'
@@ -16,52 +16,57 @@ export class SearchResultComponent implements OnChanges, OnInit {
     @Input() searchWord: string;
     arrPhoto: Image[];
     offset: number;
-    countPhoto: number;
+    countSearchPhoto: number;
     statusText: string;
     
     constructor(
         private vkServ: VkService,
-        private scrollListener: ScrollListener) {
+        private scrollListener: ScrollListener,
+        private ref: ChangeDetectorRef //force rerendering list photo
+    ) {
         this.arrPhoto = [];
-        this.countPhoto = 10;
+        this.countSearchPhoto = 10;
         this.offset = 0;
     }
 
     ngOnInit(){
-        this.scrollListener.publishScrollToBottom(this.onScrolledToBottom)
+        //subscribe on event when user scrolled to bottom
+        this.scrollListener.publishScrollToBottom((bottom: boolean) => {
+            if(bottom){
+                //add offset
+                this.offset += this.countSearchPhoto;
+                this.makeSearch()
+            }
+        });
     }
 
     ngOnChanges(){
-       
+        //reset list and offset when  searchWord is changed
+        this.resetSearch()
         this.makeSearch()
     }
 
     makeSearch(){
-       // if(this.searchWord.length > 0){
-            let data = {
-                "q": this.searchWord,
-                "offset": this.offset,
-                "count": this.countPhoto
-            }
-             
-            this.vkServ.vkSearchPhoto({data}, (result) => {
-                this.arrPhoto = <Image[]>result.response;
-                console.log('search!!!!!!!!!!!!!!!!')
-                console.log(this.arrPhoto)
-            })
-        // } else 
-        //     this.resetSearch();
+        let data = {
+            "q": this.searchWord,
+            "offset": this.offset,
+            "count": this.countSearchPhoto
+        }
+        this.vkServ.vkSearchPhoto(data, (result) => {
+            console.log(result)
+            this.arrPhoto = this.arrPhoto.concat(<Image[]>result.response)
+            this.ref.detectChanges(); //force rerendering array pphoto
+            console.log(this.arrPhoto)
+        });
     }
 
     resetSearch(){
         this.offset = 0;
+        this.arrPhoto = [];
     }
 
-    onScrolledToBottom(bottom : boolean){
-        // if(bottom){
-        //     console.log('bottom')
-        //     this.offset += this.countPhoto;
-        //     this.makeSearch()
-        // }
+    onClickMorePhoto(){
+        this.offset += this.countSearchPhoto
+        this.makeSearch()
     }
 }

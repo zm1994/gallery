@@ -13,7 +13,8 @@ export class ScrollListener  {
                                      html.scrollHeight, html.offsetHeight);
             let windowBottom = windowHeight + window.pageYOffset;
             this.bottom = windowBottom >= docHeight;
-            callbackMethod(this.bottom);
+            if(this.bottom)
+                callbackMethod(true)
          };
     }
 }

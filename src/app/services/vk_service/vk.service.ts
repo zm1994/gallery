@@ -13,7 +13,7 @@ declare var VK: any;
 @Injectable()
 export class VkService implements OnInit{
     isLogged: boolean;
-   
+    counter = 0;
     login_access: number; // for access to photo by login set number 4
 
     constructor() {
@@ -26,7 +26,25 @@ export class VkService implements OnInit{
     }
 
     vkSearchPhoto(params, callbackFunction){
-        VK.api('photos.search', {params}, callbackFunction)
+
+        // let jsonObj = JSON.stringify(params);
+        // console.log(jsonObj);
+        
+        this.counter += 6;
+        console.log(params)
+        console.log({params})
+        console.log(VK)
+        VK.Api.call('photos.search', params, callbackFunction)
+    }
+
+    vkSearchPhoto1(params, callbackFunction){
+
+        // let jsonObj = JSON.stringify(params);
+        // console.log(jsonObj);
+        
+        this.counter += 6;
+        console.log({"q": "dog", "count": `\"${this.counter}\"` })
+        VK.api('photos.search', {"q": "dog", "count": `10` }, callbackFunction)
     }
 
     resultRespone(response: any): Observable<Image[]> {

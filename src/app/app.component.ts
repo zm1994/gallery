@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
   
   onStartedSearch(event: string){
     this.searchWord = event;
-    
   }
 }
 
