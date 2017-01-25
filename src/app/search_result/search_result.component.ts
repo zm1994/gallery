@@ -64,9 +64,4 @@ export class SearchResultComponent implements OnChanges, OnInit {
         this.offset = 0;
         this.arrPhoto = [];
     }
-
-    onClickMorePhoto(){
-        this.offset += this.countSearchPhoto
-        this.makeSearch()
-    }
 }
