@@ -1,4 +1,4 @@
-export class Image{
+export class Photo{
     aid?: string;
     created?: string;
     height?: string;

@@ -1,0 +1,9 @@
+img{
+    display: inline-block;
+    width: 100px;
+    height: 200px;
+}
+
+photo_container{
+    float: left;
+}

@@ -1,12 +1,14 @@
 <search (startSearch)="onStartedSearch($event)"></search>
 <button (click)="Login()">Login</button>
-<div class="tabs">
+<a [routerLink]="['/albums']">Albums</a>
+<!--<list-albums></list-albums>-->
+<!--<div class="tabs">
    <div class="tab">
        <input type="radio" id="tab-4" name="tab-group-2" checked>
        <label for="tab-4">Albom</label>
 
        <div class="content">
-         <list-alboms></list-alboms>
+         
        </div>
    </div>
 
@@ -16,15 +18,15 @@
 
       <div class="content">
         <!--<search-result [searchWord]="searchWord"></search-result>-->
-      </div>
-   </div>
-
-</div>
+      <!--</div>
+   </div>-->
+<!--
+</div>-->
     <main>
       <router-outlet></router-outlet>
     </main>
 
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
+    <!--<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
 
     <footer>
       <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
@@ -33,4 +35,4 @@
           <img [src]="angularclassLogo" width="25%">
         </a>
       </div>
-    </footer>
+    </footer>-->

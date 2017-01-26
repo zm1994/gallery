@@ -20,7 +20,7 @@ export class VkService implements OnInit{
         this.login_access = 4;
     };
 
-    private get userId(){
+    get userId(){
       return localStorage.getItem('mid')
     }
 
@@ -28,17 +28,39 @@ export class VkService implements OnInit{
         VK.Auth.getLoginStatus(this.getVkStatus);
     }
 
-    vkSearchPhoto(params, callbackMethod){
-        VK.Api.call('photos.search', params, callbackMethod)
+    vkSearchPhoto(searchWord, offset, countSearchPhoto, callbackMethod){
+        let data = {
+            "q": searchWord,
+            "offset": offset,
+            "count": countSearchPhoto
+        }
+        VK.Api.call('photos.search', data, callbackMethod)
     }
 
-    vkGetAlboms(callbackMethod){
+    vkGetAlbums(callbackMethod){
         let data = {
           "owner_id": this.userId
         }
         console.log(data)
+        VK.Api.call('photos.getAlbums', data, callbackMethod)
+    }
 
-        VK.api('photos.getAlbums', data, callbackMethod)
+    vkGetPhotoById(idAlbum, idPhoto, callbackMethod) {
+        let data = {
+            "owner_id": this.userId,
+            "album_id": idAlbum,
+            "photo_ids": idPhoto
+        }
+        VK.Api.call('photos.get', data, callbackMethod)
+    }
+
+    vkGetAllPhotoFromAlbom(idAlbum, idPhoto, callbackMethod) {
+        let data = {
+            "owner_id": this.userId,
+            "album_id": idAlbum,
+            "photo_ids": idPhoto        
+        }
+        VK.Api.call('photos.get', data, callbackMethod)
     }
 
     vkLogin() {

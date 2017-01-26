@@ -34,8 +34,9 @@ import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search_result/search_result.component'
 import { VkService } from './services/vk_service/vk.service'
 import { ScrollListener } from './shared/scroll.listener'
-import { AlbomComponent } from './albom/albom.component';
-import { ListAlbomComponent } from  './albom/list_alboms.component'
+import { AlbumComponent } from './album/album.component';
+import { ListAlbumComponent } from  './album/list_albums.component'
+import { PhotoComponent } from './photo/photo.component'
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -60,10 +61,11 @@ type StoreType = {
   declarations: [
     AppComponent,
     AboutComponent,
-    AlbomComponent,
-    ListAlbomComponent,
+    AlbumComponent,
+    ListAlbumComponent,
     HomeComponent,
     NoContentComponent,
+    PhotoComponent,
     SearchComponent,
     SearchResultComponent,
     XLargeDirective

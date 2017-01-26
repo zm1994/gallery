@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { VkService } from '../services/vk_service/vk.service'
 import { ScrollListener } from '../shared/scroll.listener'
-import { Image } from '../models/image.model'
+import { Photo } from '../models/photo.model'
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 
@@ -14,7 +14,7 @@ import 'rxjs/add/operator/map'
 
 export class SearchResultComponent implements OnChanges, OnInit {
     @Input() searchWord: string;
-    arrPhoto: Image[];
+    arrPhoto: Photo[];
     offset: number;
     countSearchPhoto: number;
     statusText: string;
@@ -47,14 +47,9 @@ export class SearchResultComponent implements OnChanges, OnInit {
     }
 
     makeSearch(){
-        let data = {
-            "q": this.searchWord,
-            "offset": this.offset,
-            "count": this.countSearchPhoto
-        }
-        this.vkServ.vkSearchPhoto(data, (result) => {
+        this.vkServ.vkSearchPhoto(this.searchWord, this.offset, this.countSearchPhoto, (result) => {
             console.log(result)
-            this.arrPhoto = this.arrPhoto.concat(<Image[]>result.response)
+            this.arrPhoto = this.arrPhoto.concat(<Photo[]>result.response)
             this.ref.detectChanges(); //force rerendering array pphoto
             console.log(this.arrPhoto)
         });

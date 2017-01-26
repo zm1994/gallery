@@ -1,0 +1,9 @@
+<div *ngIf="arrayAlbums">
+<div *ngFor="let album of arrayAlbums">
+  <photo [itemPhoto]="album.thumbPhoto"></photo>
+  <div class="title">{{album.title}}</div>
+</div>
+
+</div>
+<button type="button" (сlick)="getAlbums()">GetAlbomns</button>
+<button type="button" (click)="getAlb()">Get</button>
