@@ -32,15 +32,13 @@ export class VkService implements OnInit{
         VK.Api.call('photos.search', params, callbackMethod)
     }
 
-    vkSearchAlboms(params, callbackFunction){
+    vkGetAlboms(callbackMethod){
         let data = {
           "owner_id": this.userId
         }
-        VK.api('photos.search', data, callbackFunction)
-    }
+        console.log(data)
 
-    resultRespone(response: any): Observable<Image[]> {
-        return response.map((res) => <Image[]> res);
+        VK.api('photos.getAlbums', data, callbackMethod)
     }
 
     vkLogin() {

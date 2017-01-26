@@ -4,18 +4,21 @@
    <div class="tab">
        <input type="radio" id="tab-4" name="tab-group-2" checked>
        <label for="tab-4">Albom</label>
-       
+
        <div class="content">
-           <albom></albom>
-       </div> 
+         <list-alboms></list-alboms>
+       </div>
    </div>
-    
+
     <div class="tab">
        <input type="radio" id="tab-6" name="tab-group-2">
        <label for="tab-6">Tab Three</label>
-       <search-result [searchWord]="searchWord"></search-result>
+
+      <div class="content">
+        <!--<search-result [searchWord]="searchWord"></search-result>-->
+      </div>
    </div>
-    
+
 </div>
     <main>
       <router-outlet></router-outlet>

@@ -32,9 +32,10 @@ import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search_result/search_result.component'
-import { AlbomComponent } from './albom/albom.component';
 import { VkService } from './services/vk_service/vk.service'
 import { ScrollListener } from './shared/scroll.listener'
+import { AlbomComponent } from './albom/albom.component';
+import { ListAlbomComponent } from  './albom/list_alboms.component'
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -60,6 +61,7 @@ type StoreType = {
     AppComponent,
     AboutComponent,
     AlbomComponent,
+    ListAlbomComponent,
     HomeComponent,
     NoContentComponent,
     SearchComponent,
