@@ -1,5 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
+import { Jsonp } from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Image } from '../../models/image.model'
@@ -15,7 +16,7 @@ export class VkService implements OnInit{
     isLogged: boolean;
     login_access: number; // for access to photo by login set number 4
 
-    constructor() {
+    constructor(private jsonp: Jsonp) {
         this.isLogged = false;
         this.login_access = 4;
     };
@@ -37,12 +38,24 @@ export class VkService implements OnInit{
         VK.Api.call('photos.search', data, callbackMethod)
     }
 
-    vkGetAlbums(callbackMethod){
-        let data = {
-          "owner_id": this.userId
+    vkGetAlbums(): Observable<any[]>{
+        // let data = {
+        //   "owner_id": this.userId
+        // }
+        // console.log(data)
+        // VK.Api.call('photos.getAlbums', data, callbackMethod)
+      return this.jsonp.request('https://api.vk.com/method/photos.getAlbums?' +
+        'owner_id=' + localStorage.getItem('mid') +
+        '&v=5.52' +
+        '&need_covers=1' +
+        '&access_token=' + localStorage.getItem('sid') +
+        '&callback=JSONP_CALLBACK').map((res) =>
+        {
+          let r = res.json();
+          console.log(res.json());
+          return <any[]> r.response.items
         }
-        console.log(data)
-        VK.Api.call('photos.getAlbums', data, callbackMethod)
+        )
     }
 
     vkGetPhotoById(idAlbum, idPhoto, callbackMethod) {
@@ -58,7 +71,7 @@ export class VkService implements OnInit{
         let data = {
             "owner_id": this.userId,
             "album_id": idAlbum,
-            "photo_ids": idPhoto        
+            "photo_ids": idPhoto
         }
         VK.Api.call('photos.get', data, callbackMethod)
     }

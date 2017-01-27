@@ -12,7 +12,7 @@ import { Photo } from '../models/photo.model'
 
 
 export class ListAlbumComponent implements OnInit {
-  arrayAlbums: Album[];
+  arrayAlbums: any[];
 
   constructor(private vkServ: VkService,
               private detecorRef: ChangeDetectorRef //force rerendering list photo
@@ -26,18 +26,19 @@ export class ListAlbumComponent implements OnInit {
 
   getAlbums(){
     console.log('search alboms')
-    this.vkServ.vkGetAlbums((result) => {
-      this.arrayAlbums = <Album[]> result.response;
-      this.getThumbs();
-      // console.log(this.arrayAlbums)
-      // 
-    })
+    // this.vkServ.vkGetAlbums((result) => {
+    //   this.arrayAlbums = <Album[]> result.response;
+    //   this.getThumbs();
+    //   // console.log(this.arrayAlbums)
+    //   //
+    // })
+    this.vkServ.vkGetAlbums().subscribe((response) => this.arrayAlbums = response)
   }
 
   getThumbs(){
     this.arrayAlbums.forEach((item) => {
       this.vkServ.vkGetPhotoById(item.aid, item.thumb_id, (result) => {
-        
+
         item.thumbPhoto = <Photo>result.response[0];
         console.log(item.thumbPhoto);
       })

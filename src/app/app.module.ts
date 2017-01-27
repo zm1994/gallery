@@ -14,7 +14,6 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
-import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 
 /*
@@ -37,7 +36,8 @@ import { ScrollListener } from './shared/scroll.listener'
 import { AlbumComponent } from './album/album.component';
 import { ListAlbumComponent } from  './album/list_albums.component'
 import { PhotoComponent } from './photo/photo.component'
-
+import { JsonpModule } from '@angular/http';
+import { TabsModule } from 'ng2-bootstrap';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -73,8 +73,9 @@ type StoreType = {
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
+    JsonpModule,
     HttpModule,
-    MaterialModule.forRoot(),
+    TabsModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

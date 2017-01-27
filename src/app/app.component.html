@@ -1,38 +1,10 @@
 <search (startSearch)="onStartedSearch($event)"></search>
 <button (click)="Login()">Login</button>
-<a [routerLink]="['/albums']">Albums</a>
-<!--<list-albums></list-albums>-->
-<!--<div class="tabs">
-   <div class="tab">
-       <input type="radio" id="tab-4" name="tab-group-2" checked>
-       <label for="tab-4">Albom</label>
 
-       <div class="content">
-         
-       </div>
-   </div>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a [routerLink]="['/albums']">Home</a></li>
+  <li role="presentation" ><a [routerLink]="['/albums']">Profile</a></li>
+  <li role="presentation"><a href="#">Messages</a></li>
+</ul>
 
-    <div class="tab">
-       <input type="radio" id="tab-6" name="tab-group-2">
-       <label for="tab-6">Tab Three</label>
-
-      <div class="content">
-        <!--<search-result [searchWord]="searchWord"></search-result>-->
-      <!--</div>
-   </div>-->
-<!--
-</div>-->
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <!--<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>-->
+  <router-outlet></router-outlet>

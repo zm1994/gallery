@@ -1,6 +1,7 @@
 <div *ngIf="arrayAlbums">
 <div *ngFor="let album of arrayAlbums">
-  <photo [itemPhoto]="album.thumbPhoto"></photo>
+  <!--<photo [itemPhoto]="album.thumbPhoto"></photo>-->
+  <img src="{{album.thumb_src}}">
   <div class="title">{{album.title}}</div>
 </div>
 

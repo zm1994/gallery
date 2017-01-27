@@ -2,7 +2,7 @@ import { Component, Output, Input, OnChanges, ChangeDetectorRef } from '@angular
 import { Photo } from '../models/photo.model'
 import { ActivatedRoute, Router } from '@angular/router'
 import { VkService } from '../services/vk_service/vk.service'
-
+import {ANGULAR_TABS_DIRECTIVES, TabInterface} from "angular2-tabs/core";
 
 @Component({
     selector: 'photo',
@@ -12,8 +12,8 @@ import { VkService } from '../services/vk_service/vk.service'
 })
 
 export class ListPhotoComponent {
-   
-   arrPhoto: Photo[] 
+
+   arrPhoto: Photo[]
 
     constructor(
         private route: ActivatedRoute,
@@ -30,8 +30,8 @@ export class ListPhotoComponent {
   }
 
   getPhotoFromAlbom(albomId : string) {
-      if(!!albomId)
-        this.vkServ.
+
+
   }
-    
+
 }
