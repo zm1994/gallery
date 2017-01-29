@@ -1,7 +1,1 @@
-<div *ngIf="arrPhoto">
-    <div *ngFor="let photo of arrPhoto" >
-        <img src="{{photo.src}}"/>
-    </div>
-
-</div>
-<button (click)="onClickMorePhoto()" class="more">More</button>
+<list-photo #listPhotoContent></list-photo>

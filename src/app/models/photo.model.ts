@@ -1,14 +1,14 @@
 export class Photo{
-    aid?: string;
-    created?: string;
+    album_id?: string;
+    date?: string;
     height?: string;
+    id?: string;
     owner_id?: string
-    pid?: string;
-    post_id?: string;
-    src?: string;
-    src_big?: string;
-    src_small?: string;
-    src_xbig?: string;
+    photo_75?: string;
+    photo_130?: string;
+    photo_604?: string;
+    photo_807?: string;
     text?: string;
+    user_id?: string;
     width?: string;
 }

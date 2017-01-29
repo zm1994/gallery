@@ -1,10 +1,18 @@
 <search (startSearch)="onStartedSearch($event)"></search>
-<button (click)="Login()">Login</button>
-
-<ul class="nav nav-tabs">
-  <li role="presentation" class="active"><a [routerLink]="['/albums']">Home</a></li>
-  <li role="presentation" ><a [routerLink]="['/albums']">Profile</a></li>
-  <li role="presentation"><a href="#">Messages</a></li>
-</ul>
-
-  <router-outlet></router-outlet>
+<authorization *ngIf="!userLogged"></authorization>
+<tabset>
+  <tab>
+    <template tabHeading>
+      <i class="fa fa-picture-o" aria-hidden="true"></i>
+    </template>
+    <list-albums></list-albums>
+  </tab>
+  <tab>
+    <template tabHeading>
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </template>
+    <!--<list-photo #searchPhotoContent></list-photo>-->
+    <search-result #searchPhotoContent></search-result>
+  </tab>
+</tabset>
+<router-outlet></router-outlet>

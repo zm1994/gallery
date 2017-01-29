@@ -27,6 +27,7 @@ import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
 import { AboutComponent } from './about';
+import { AlertComponent } from './alert/alert.component'
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
 import { SearchComponent } from './search/search.component';
@@ -37,7 +38,9 @@ import { AlbumComponent } from './album/album.component';
 import { ListAlbumComponent } from  './album/list_albums.component'
 import { PhotoComponent } from './photo/photo.component'
 import { JsonpModule } from '@angular/http';
+import { AuthorizationComponent } from './authorization/authorization.component' 
 import { TabsModule } from 'ng2-bootstrap';
+import { ListPhotoComponent } from './photo/list_photo.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -62,7 +65,10 @@ type StoreType = {
     AppComponent,
     AboutComponent,
     AlbumComponent,
+    AlertComponent,
+    AuthorizationComponent,
     ListAlbumComponent,
+    ListPhotoComponent,
     HomeComponent,
     NoContentComponent,
     PhotoComponent,

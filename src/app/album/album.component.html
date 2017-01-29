@@ -1,1 +1,4 @@
-<p>Albom</p>
+<button type="button" *ngIf="itemAlbum" class="list-group-item" (click)="showImages()">
+    <img src="{{itemAlbum.thumb_src}}">
+    <div class="title">{{itemAlbum.title}}</div>
+</button>

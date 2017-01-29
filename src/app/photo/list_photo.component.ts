@@ -1,37 +1,52 @@
 import { Component, Output, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { Photo } from '../models/photo.model'
-import { ActivatedRoute, Router } from '@angular/router'
 import { VkService } from '../services/vk_service/vk.service'
 import {ANGULAR_TABS_DIRECTIVES, TabInterface} from "angular2-tabs/core";
 
 @Component({
-    selector: 'photo',
-    templateUrl: 'photo.component.html',
-    styleUrls: ['photo.component.css'],
+    selector: 'list-photo',
+    templateUrl: 'list_photo.component.html',
+    styleUrls: ['list_photo.component.css'],
     providers: [VkService]
 })
 
 export class ListPhotoComponent {
-
-   arrPhoto: Photo[]
+//    @Input() arrPhoto: Photo[]
+    arrPhoto: Photo[]
+    alertMessage: string;
 
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private vkServ: VkService
-        ) {}
+        private ref: ChangeDetectorRef,
+        private vkServ: VkService) {
+            this.arrPhoto = [];
+            this.alertMessage = ''
+        }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-        // Defaults to 0 if no query param provided.
-        let albom = params['albom'];
-        this.getPhotoFromAlbom(albom)
-      });
-  }
+    getAllPhotoInAlbum(albumId) {
+        this.clearArrayPhoto()
+        this.vkServ.vkGetPhotoInAlbom(albumId)
+            .subscribe((response) => this.checkResponse(response),
+                 (error) => this.alertMessage = error)
+    }
 
-  getPhotoFromAlbom(albomId : string) {
+    getAllPhotoByParams(word, offset, count) {
+        this.vkServ.vkSearchPhoto(word, offset, count)
+            .subscribe((response) => this.checkResponse(response),
+                       (error) =>  this.alertMessage = error)
+    }
 
+    clearArrayPhoto(){
+        this.arrPhoto = []
+    }
 
-  }
-
+    checkResponse(resp) {
+        console.log(resp)
+        if (!resp.error) {
+            this.arrPhoto = this.arrPhoto.concat(<Photo[]>resp.response.items);
+            console.log(this.arrPhoto)
+            // this.ref.detectChanges(); //force rerendering array pphoto
+        }
+        else
+            this.alertMessage = resp.error.error_msg;
+    }
 }

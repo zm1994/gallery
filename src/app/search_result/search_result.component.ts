@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, HostListener, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { VkService } from '../services/vk_service/vk.service'
 import { ScrollListener } from '../shared/scroll.listener'
 import { Photo } from '../models/photo.model'
 import { Observable } from 'rxjs/Observable'
+import { ListPhotoComponent } from '../photo/list_photo.component'
 import 'rxjs/add/operator/map'
 
 @Component({
@@ -12,21 +13,25 @@ import 'rxjs/add/operator/map'
     providers: [VkService]
 })
 
-export class SearchResultComponent implements OnChanges, OnInit {
-    @Input() searchWord: string;
-    arrPhoto: Photo[];
+export class SearchResultComponent implements OnInit {
+    @ViewChild(ListPhotoComponent)
+    private listPhotoContent: ListPhotoComponent;
+
+    searchWord: string;
+    // alertMessage: string
+    // arrPhoto: Photo[];
     offset: number;
     countSearchPhoto: number;
-    statusText: string;
     
     constructor(
         private vkServ: VkService,
         private scrollListener: ScrollListener,
         private ref: ChangeDetectorRef //force rerendering list photo
     ) {
-        this.arrPhoto = [];
+        // this.arrPhoto = [];
         this.countSearchPhoto = 10;
         this.offset = 0;
+        // this.alertMessage = '';
     }
 
     ngOnInit(){
@@ -35,28 +40,30 @@ export class SearchResultComponent implements OnChanges, OnInit {
             if(bottom){
                 //add offset
                 this.offset += this.countSearchPhoto;
-                this.makeSearch()
+                this.searchPhotoByName(this.searchWord)
             }
         });
     }
 
-    ngOnChanges(){
-        //reset list and offset when  searchWord is changed
-        this.resetSearch()
-        this.makeSearch()
+    searchPhotoByName(name){
+        this.resetSearchResult();
+        this.searchWord = name;
+        this.listPhotoContent.getAllPhotoByParams(this.searchWord, this.offset, this.countSearchPhoto)
     }
 
-    makeSearch(){
-        this.vkServ.vkSearchPhoto(this.searchWord, this.offset, this.countSearchPhoto, (result) => {
-            console.log(result)
-            this.arrPhoto = this.arrPhoto.concat(<Photo[]>result.response)
-            this.ref.detectChanges(); //force rerendering array pphoto
-            console.log(this.arrPhoto)
-        });
-    }
+    // checkResponse(resp) {
+    //     console.log(resp)
+    //     if (!resp.error) {
+    //         this.arrPhoto = this.arrPhoto.concat(<Photo[]>resp.response.items)
+    //         this.ref.detectChanges(); //force rerendering array pphoto
+    //     }
+    //     else
+    //         this.alertMessage = resp.error.error_msg;
+    // }
 
-    resetSearch(){
+    resetSearchResult(){
         this.offset = 0;
-        this.arrPhoto = [];
+        // this.arrPhoto = [];
+        this.listPhotoContent.clearArrayPhoto()
     }
 }

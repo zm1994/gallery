@@ -3,13 +3,16 @@
  */
 import {
   Component,
+  DoCheck,
   Renderer,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ViewChild
 } from '@angular/core';
 import { AppState } from './app.service';
 import { VkService } from './services/vk_service/vk.service'
 import { Observable } from 'rxjs/Observable'
+import { SearchResultComponent } from './search_result/search_result.component'
 
 
 /*
@@ -25,8 +28,12 @@ import { Observable } from 'rxjs/Observable'
 })
 
 export class AppComponent implements OnInit {
-  searchWord: string = '';
+  @ViewChild(SearchResultComponent)
+  private searchPhotoContent: SearchResultComponent;
   client_id: number;
+  userLogged: boolean;
+
+
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Angular 2 Webpack Starter';
   public url = 'https://twitter.com/AngularClass';
@@ -35,22 +42,25 @@ export class AppComponent implements OnInit {
     public appState: AppState,
     private renderer: Renderer,
     private vkServ: VkService) {
-    this.client_id = 5832573;
+    this.client_id = 5832573; //this is id of app in vk
+  }
+
+  ngDoCheck() {
+    console.log(this.vkServ.isLogged)
+    this.userLogged = this.vkServ.isLogged;
   }
 
   public ngOnInit() {
-     VK.init({
-            apiId: this.client_id,
-        });
-  }
-
-
-  Login(){
-    this.vkServ.vkLogin();
+        VK.init({
+            apiId: 5832573,
+        });      
+        this.vkServ.checkLoginStatus()
   }
   
   onStartedSearch(event: string){
-    this.searchWord = event;
+    console.log('search started')
+    // this.searchWord = event;
+    this.searchPhotoContent.searchPhotoByName(event)
   }
 }
 
