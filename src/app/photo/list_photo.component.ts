@@ -1,7 +1,8 @@
-import { Component, Output, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Photo } from '../models/photo.model'
 import { VkService } from '../services/vk_service/vk.service'
 import {ANGULAR_TABS_DIRECTIVES, TabInterface} from "angular2-tabs/core";
+import {isUndefined} from "util";
 
 @Component({
     selector: 'list-photo',
@@ -11,16 +12,15 @@ import {ANGULAR_TABS_DIRECTIVES, TabInterface} from "angular2-tabs/core";
 })
 
 export class ListPhotoComponent {
-//    @Input() arrPhoto: Photo[]
+    @Output() closeListPhoto: EventEmitter<boolean>;
     arrPhoto: Photo[]
     alertMessage: string;
 
-    constructor(
-        private ref: ChangeDetectorRef,
-        private vkServ: VkService) {
-            this.arrPhoto = [];
-            this.alertMessage = ''
-        }
+    constructor( private vkServ: VkService ) {
+      this.arrPhoto = [];
+      this.alertMessage = ''
+      this.closeListPhoto = new EventEmitter();
+    }
 
     getAllPhotoInAlbum(albumId) {
         this.clearArrayPhoto()
@@ -41,12 +41,10 @@ export class ListPhotoComponent {
 
     checkResponse(resp) {
         console.log(resp)
-        if (!resp.error) {
-            this.arrPhoto = this.arrPhoto.concat(<Photo[]>resp.response.items);
-            console.log(this.arrPhoto)
-            // this.ref.detectChanges(); //force rerendering array pphoto
-        }
+        if (!resp.error)
+          this.arrPhoto = this.arrPhoto.concat(<Photo[]>resp.response.items);
         else
-            this.alertMessage = resp.error.error_msg;
+          this.alertMessage = resp.error.error_msg;
+        console.log(this.arrPhoto)
     }
 }

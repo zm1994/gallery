@@ -7,7 +7,7 @@ import {
   Renderer,
   OnInit,
   ViewEncapsulation,
-  ViewChild
+  ViewChild, ElementRef
 } from '@angular/core';
 import { AppState } from './app.service';
 import { VkService } from './services/vk_service/vk.service'
@@ -30,6 +30,9 @@ import { SearchResultComponent } from './search_result/search_result.component'
 export class AppComponent implements OnInit {
   @ViewChild(SearchResultComponent)
   private searchPhotoContent: SearchResultComponent;
+  @ViewChild('tabSearchResult')
+  private tabSearchResult: ElementRef;
+
   client_id: number;
   userLogged: boolean;
 
@@ -53,13 +56,13 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
         VK.init({
             apiId: 5832573,
-        });      
+        });
         this.vkServ.checkLoginStatus()
   }
-  
+
   onStartedSearch(event: string){
-    console.log('search started')
-    // this.searchWord = event;
+    console.log(this.tabSearchResult.nativeElement.click())
+    this.tabSearchResult.nativeElement.click()
     this.searchPhotoContent.searchPhotoByName(event)
   }
 }

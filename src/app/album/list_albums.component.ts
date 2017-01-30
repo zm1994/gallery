@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
 import { VkService } from '../services/vk_service/vk.service'
 import { Album } from '../models/album.model'
 import { Photo } from '../models/photo.model'
@@ -12,37 +12,46 @@ import { ListPhotoComponent } from '../photo/list_photo.component'
 })
 
 
-export class ListAlbumComponent implements OnInit {
+export class ListAlbumComponent implements OnInit, AfterViewInit {
   @ViewChild(ListPhotoComponent)
   private listPhotoContent: ListPhotoComponent;
-  
-  @ViewChild('arrayAlbumContent') 
-  private arrayAlbumContent: HTMLElement;
+
+  @ViewChild('arrayAlbumContent')
+  private arrayAlbumContent: ElementRef;
 
   arrayAlbums: Album[];
   arrPhotoSelectedAlbum: Photo[]
   selectedAlbumId: string;
   alertMessage: string;
 
-  constructor(private vkServ: VkService,
-              private detecorRef: ChangeDetectorRef //force rerendering list photo
-  ){
+  constructor(private vkServ: VkService){
     this.arrayAlbums = [];
     this.alertMessage = ''
     this.selectedAlbumId = ''
-    
-    
+  }
+
+  ngAfterViewInit() {
+    console.log('ng after view init')
+    console.log(this.arrayAlbumContent);       // SomeDir {...}
+    console.log(this.listPhotoContent);
+    this.getAlbums();
   }
 
   ngOnInit(){
-    this.getAlbums();
+    //this.getAlbums();
   }
 
   onSelectedAlbum(event){
     console.log(event)
-    this.arrayAlbumContent.hidden = true;
-    console.log(this.listPhotoContent.getAllPhotoInAlbum(event))
-    // this.albumPhotoContent.getAllPhotoInAlbum(event)
+    console.log(this.arrayAlbumContent)
+    this.arrayAlbumContent.nativeElement.hidden = true;
+    console.log(this.arrayAlbumContent)
+    this.listPhotoContent.getAllPhotoInAlbum(event)
+  }
+
+  goBackFromAlbumContent(){
+    this.arrayAlbumContent.nativeElement.hidden = false;
+    this.listPhotoContent.clearArrayPhoto();
   }
 
   getAlbums(){

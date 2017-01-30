@@ -17,7 +17,7 @@ declare var VK: any;
 export class VkService implements OnInit, AfterViewInit{
     isLogged: boolean;
     login_access: number; // for access to photo by login set number 4
-    
+
     private get apiConfigRequest(){
         let confing = new URLSearchParams()
         // confing.append("v", "5.52");
@@ -31,7 +31,7 @@ export class VkService implements OnInit, AfterViewInit{
         // confing.append("need_covers", "1");
         // confing.append("access_token", localStorage.getItem('sid'));
         // confing.append("callback", "JSONP_CALLBACK");
-        
+
     }
 
     private get apiRootPathMethods(){
@@ -78,13 +78,9 @@ export class VkService implements OnInit, AfterViewInit{
     vkGetPhotoInAlbom(albomId): Observable<Photo[]> {
         return this.jsonp.request('https://api.vk.com/method/photos.get?' +
             'owner_id=' + localStorage.getItem('mid') +
-            '&album_id=' + albomId +
-            this.apiConfigRequest)
-            .map(result => {
-                let r = result.json();
-                console.log(r);
-                return r.response;
-            }).catch((error) => Observable.throw(error || 'Server error'))
+            '&album_id=' + albomId + this.apiConfigRequest)
+            .map((res) =>  res.json())
+            .catch((error) => Observable.throw(error || 'Server error'))
     }
 
     // vkGetPhotoById(idAlbum, idPhoto, callbackMethod) {

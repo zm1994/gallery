@@ -1,6 +1,7 @@
+<ng-content></ng-content>
 <div *ngIf="arrPhoto" class="row">
     <div *ngFor="let photo of arrPhoto" >
-        <div class="col-lg-3 col-sm-4 col-6"><a href="#" title="Image 1"><img src="{{photo.photo_130}}" class="thumbnail img-responsive"></a></div>
+        <div class="col-lg-3 col-sm-4 col-6"><a href="#" title="Image 1"><img src="{{photo.photo_75}}" class="thumbnail img-responsive"></a></div>
     </div>
 </div>
 <alert [errorMessage]="alertMessage"></alert>
