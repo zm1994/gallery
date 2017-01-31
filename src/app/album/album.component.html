@@ -1,4 +1,10 @@
-<button type="button" *ngIf="itemAlbum" class="list-group-item" (click)="showImages()">
-    <img src="{{itemAlbum.thumb_src}}">
-    <div class="title">{{itemAlbum.title}}</div>
-</button>
+<div #albumContent>
+    <div (click)="goBackFromAlbumContent()">
+        <button class="btn">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        <i class="fa fa-folder" aria-hidden="true"></i>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </button>
+    </div>
+    <list-photo #listPhotoContent></list-photo>
+</div>

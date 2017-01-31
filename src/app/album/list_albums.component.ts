@@ -3,6 +3,7 @@ import { VkService } from '../services/vk_service/vk.service'
 import { Album } from '../models/album.model'
 import { Photo } from '../models/photo.model'
 import { ListPhotoComponent } from '../photo/list_photo.component'
+import { AlbumComponent } from '../album/album.component'
 
 @Component({
   selector: 'list-albums',
@@ -12,46 +13,32 @@ import { ListPhotoComponent } from '../photo/list_photo.component'
 })
 
 
-export class ListAlbumComponent implements OnInit, AfterViewInit {
-  @ViewChild(ListPhotoComponent)
-  private listPhotoContent: ListPhotoComponent;
+export class ListAlbumComponent implements AfterViewInit {
+  @ViewChild('albumContent')
+  private albumContent: AlbumComponent;
 
   @ViewChild('arrayAlbumContent')
   private arrayAlbumContent: ElementRef;
 
-  arrayAlbums: Album[];
-  arrPhotoSelectedAlbum: Photo[]
-  selectedAlbumId: string;
-  alertMessage: string;
+  private arrayAlbums: Album[];
+  private alertMessage: string;
 
   constructor(private vkServ: VkService){
     this.arrayAlbums = [];
     this.alertMessage = ''
-    this.selectedAlbumId = ''
   }
 
   ngAfterViewInit() {
-    console.log('ng after view init')
-    console.log(this.arrayAlbumContent);       // SomeDir {...}
-    console.log(this.listPhotoContent);
     this.getAlbums();
   }
 
-  ngOnInit(){
-    //this.getAlbums();
-  }
-
-  onSelectedAlbum(event){
-    console.log(event)
-    console.log(this.arrayAlbumContent)
+  showAlbumContent(album: Album) {
     this.arrayAlbumContent.nativeElement.hidden = true;
-    console.log(this.arrayAlbumContent)
-    this.listPhotoContent.getAllPhotoInAlbum(event)
+    this.albumContent.showPhotoContent(album.id)
   }
 
-  goBackFromAlbumContent(){
+  onBackwardFromAlbumContent(event) {
     this.arrayAlbumContent.nativeElement.hidden = false;
-    this.listPhotoContent.clearArrayPhoto();
   }
 
   getAlbums(){

@@ -1,16 +1,10 @@
-<!--<div #arrayAlbumContent [hidden]="!!arrPhotoSelectedAlbum" *ngIf="arrayAlbums">-->
 <div #arrayAlbumContent>
   <div *ngFor="let album of arrayAlbums" class="list-group">
-    <album [itemAlbum]="album" (selectAlbum)="onSelectedAlbum($event)"></album>
-  </div>
-</div>
-<list-photo #listPhotoContent>
-  <div *ngIf="arrayAlbumContent.hidden" (click)="goBackFromAlbumContent()">
-    <button class="btn" >
-      <i class="fa fa-chevron-left" aria-hidden="true"></i>
-      <i class="fa fa-folder" aria-hidden="true"></i>
-      <i class="fa fa-caret-down" aria-hidden="true"></i>
+    <button class="list-group-item" (click)="showAlbumContent(album)">
+        <img src="{{album.thumb_src}}">
+        <div class="title">{{album.title}}</div>
     </button>
   </div>
-</list-photo>
+</div>
+<album #albumContent (backwardFromAlbum)="onBackwardFromAlbumContent($event)"></album>
 <alert [errorMessage]="alertMessage"></alert>

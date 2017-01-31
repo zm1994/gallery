@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Photo } from '../models/photo.model'
 import { VkService } from '../services/vk_service/vk.service'
 import {ANGULAR_TABS_DIRECTIVES, TabInterface} from "angular2-tabs/core";
-import {isUndefined} from "util";
+import { PhotoComponent } from '../photo/photo.component'
 
 @Component({
     selector: 'list-photo',
@@ -12,19 +12,21 @@ import {isUndefined} from "util";
 })
 
 export class ListPhotoComponent {
-    @Output() closeListPhoto: EventEmitter<boolean>;
     arrPhoto: Photo[]
     alertMessage: string;
+    @ViewChild(PhotoComponent)
+    private photoContent: PhotoComponent;
+    @ViewChild('listPhotoContent')
+    private listPhotoContent: ElementRef;
 
     constructor( private vkServ: VkService ) {
       this.arrPhoto = [];
       this.alertMessage = ''
-      this.closeListPhoto = new EventEmitter();
     }
 
     getAllPhotoInAlbum(albumId) {
         this.clearArrayPhoto()
-        this.vkServ.vkGetPhotoInAlbom(albumId)
+        this.vkServ.vkGetPhotosInAlbum(albumId)
             .subscribe((response) => this.checkResponse(response),
                  (error) => this.alertMessage = error)
     }
@@ -37,6 +39,15 @@ export class ListPhotoComponent {
 
     clearArrayPhoto(){
         this.arrPhoto = []
+    }
+
+    showPhotoInfoContent(photo: Photo) {
+        this.listPhotoContent.nativeElement.hidden = true;
+        this.photoContent.showPhotoInfo(photo.id);
+    }
+
+    onBackwardFromPhotoInfo(event) {
+        this.listPhotoContent.nativeElement.hidden = true;
     }
 
     checkResponse(resp) {

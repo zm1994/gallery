@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef,
+         AfterViewInit } from '@angular/core';
 import { Album } from '../models/album.model'
-import { VkService } from '../services/vk_service/vk.service'
+import { ListPhotoComponent } from '../photo/list_photo.component'
 
 @Component({
     selector: 'album',
@@ -8,16 +9,31 @@ import { VkService } from '../services/vk_service/vk.service'
     styleUrls: ['album.component.css']
 })
 
-export class AlbumComponent {
-    @Input() itemAlbum: Album;
-    @Output() selectAlbum: EventEmitter<string>;
+export class AlbumComponent implements AfterViewInit {
+    @Output() backwardFromAlbum: EventEmitter<boolean>;
+    @ViewChild('listPhotoContent')
+    private listPhotoContent: ListPhotoComponent;
+    @ViewChild('albumContent')
+    private albumContent: ElementRef;
 
-    constructor(
-        private vkServ: VkService){
-         this.selectAlbum = new EventEmitter(); 
+    constructor(){
+        //  this.selectAlbum = new EventEmitter(); 
+        this.backwardFromAlbum = new EventEmitter<boolean>();
     }
-    showImages(){
+
+    ngAfterViewInit() {
+        this.albumContent.nativeElement.hidden = true;
+    }
+
+    showPhotoContent(albomId: string){
         console.log('tetst')
-        this.selectAlbum.emit(this.itemAlbum.id);
+        this.albumContent.nativeElement.hidden = false;
+        this.listPhotoContent.getAllPhotoInAlbum(albomId)
+        // this.selectAlbum.emit(albomId);
+    }
+
+    goBackFromAlbumContent() {
+        this.albumContent.nativeElement.hidden = true;
+        this.backwardFromAlbum.emit(true)
     }
 }

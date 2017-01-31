@@ -1,7 +1,13 @@
-<ng-content></ng-content>
-<div *ngIf="arrPhoto" class="row">
-    <div *ngFor="let photo of arrPhoto" >
-        <div class="col-lg-3 col-sm-4 col-6"><a href="#" title="Image 1"><img src="{{photo.photo_75}}" class="thumbnail img-responsive"></a></div>
+<div #listPhotoContent *ngIf="arrPhoto" class="row">
+    <div *ngFor="let photo of arrPhoto" class="list-group">
+        <button class="list-group-item" (click)="showPhotoInfoContent(photo)">
+            <div class="col-lg-3 col-sm-4 col-6">
+                <a href="#" title="Image 1">
+                    <img src="{{photo.photo_75}}" class="thumbnail img-responsive">
+                </a>
+            </div>
+        </button>
     </div>
 </div>
+<photo #photoContent (backwardFromPhotoInfo)="onBackwardFromPhotoInfo($event)"></photo>
 <alert [errorMessage]="alertMessage"></alert>

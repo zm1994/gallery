@@ -19,19 +19,8 @@ export class VkService implements OnInit, AfterViewInit{
     login_access: number; // for access to photo by login set number 4
 
     private get apiConfigRequest(){
-        let confing = new URLSearchParams()
-        // confing.append("v", "5.52");
-        // confing.append("need_covers", "1");
-        // confing.append("access_token", localStorage.getItem('sid'));
-        // confing.append("callback", "JSONP_CALLBACK");
-        //return confing
         return '&v=5.62&need_covers=1&access_token=' + localStorage.getItem('sid') +
                 '&callback=JSONP_CALLBACK'
-        // confing.append("v", "5.52");
-        // confing.append("need_covers", "1");
-        // confing.append("access_token", localStorage.getItem('sid'));
-        // confing.append("callback", "JSONP_CALLBACK");
-
     }
 
     private get apiRootPathMethods(){
@@ -75,7 +64,7 @@ export class VkService implements OnInit, AfterViewInit{
             .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
-    vkGetPhotoInAlbom(albomId): Observable<Photo[]> {
+    vkGetPhotosInAlbum(albomId): Observable<Photo[]> {
         return this.jsonp.request('https://api.vk.com/method/photos.get?' +
             'owner_id=' + localStorage.getItem('mid') +
             '&album_id=' + albomId + this.apiConfigRequest)
@@ -83,14 +72,13 @@ export class VkService implements OnInit, AfterViewInit{
             .catch((error) => Observable.throw(error || 'Server error'))
     }
 
-    // vkGetPhotoById(idAlbum, idPhoto, callbackMethod) {
-    //     let data = {
-    //         "owner_id": this.userId,
-    //         "album_id": idAlbum,
-    //         "photo_ids": idPhoto
-    //     }
-    //     VK.Api.call('photos.get', data, callbackMethod)
-    // }
+    vkGetPhotoById(idPhoto) {
+        return this.jsonp.request('https://api.vk.com/method/photos.get?' +
+            '&photos=' + localStorage.getItem('mid') + '_' + idPhoto +
+             +'&extended=1' + this.apiConfigRequest)
+            .map((res) =>  res.json())
+            .catch((error) => Observable.throw(error || 'Server error'))
+    }
 
     vkLogin() {
         VK.Auth.login(this.getVkStatus, this.login_access);

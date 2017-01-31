@@ -1,4 +1,14 @@
-<div *ngIf="itemPhoto" div="photo_container">
-    <img src="{{itemPhoto.src}}">        
-    <!--<div>{{album.thumbPhoto.src}}</div>-->
+<div #photoContent>
+    <div (click)="goBackFromPhotoContent()">
+        <button class="btn">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        <i class="fa fa-folder" aria-hidden="true"></i>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div="container">
+        <img src="{{photoInfo.photo_604}}">
+        <!--<div>{{album.thumbPhoto.src}}</div>-->
+    </div>
 </div>
+<alert [errorMessage]="alertMessage"></alert>
