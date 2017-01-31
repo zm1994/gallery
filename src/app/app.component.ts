@@ -13,6 +13,7 @@ import { AppState } from './app.service';
 import { VkService } from './services/vk_service/vk.service'
 import { Observable } from 'rxjs/Observable'
 import { SearchResultComponent } from './search_result/search_result.component'
+import { ListPhotoComponent } from './photo/list_photo.component'
 
 
 /*
@@ -30,6 +31,8 @@ import { SearchResultComponent } from './search_result/search_result.component'
 export class AppComponent implements OnInit {
   @ViewChild(SearchResultComponent)
   private searchPhotoContent: SearchResultComponent;
+  // @ViewChild(ListPhotoComponent)
+  // private searchPhotoContent: ListPhotoComponent;
   @ViewChild('tabSearchResult')
   private tabSearchResult: ElementRef;
 
@@ -63,6 +66,7 @@ export class AppComponent implements OnInit {
   onStartedSearch(event: string){
     console.log(this.tabSearchResult.nativeElement.click())
     this.tabSearchResult.nativeElement.click()
+    
     this.searchPhotoContent.searchPhotoByName(event)
   }
 }

@@ -11,17 +11,18 @@ import { VkService } from '../services/vk_service/vk.service'
 })
 
 export class PhotoComponent implements AfterViewInit {
+  @Output() backwardFromPhotoInfo: EventEmitter<boolean>;
   @ViewChild('photoContent')
   private photoContent: ElementRef;
   photoInfo: Photo;
   alertMessage: string;
-  backwardFromPhotoInfo: EventEmitter<boolean>;
-
+  
   constructor(private vkServ: VkService) {
     this.backwardFromPhotoInfo = new EventEmitter<boolean>();
   }
 
   ngAfterViewInit() {
+    console.log(this.photoContent)
     this.hidePhotoContent()
   }
 
@@ -51,8 +52,6 @@ export class PhotoComponent implements AfterViewInit {
   }
 
   goBackFromPhotoContent() {
-    console.log('hide photo')
-    console.log(this.backwardFromPhotoInfo)
    this.backwardFromPhotoInfo.emit(true);
    this.hidePhotoContent()
   }

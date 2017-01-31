@@ -1,0 +1,20 @@
+<div *ngIf="albums">
+    <select class="form-control" id="sel1" (change)="onSelectAlbum($event.target.value)">
+        <option *ngFor="let album of albums" [value]="album.id">{{album.title}}</option>  
+    </select>
+    <image-upload [max]="5" 
+                  [url]= "'https://pu.vk.com/c837124/upload.php?act=do_add&mid=55918433&aid=158997125&…8e9a4d25bae4aa0b5&rhash=c4a78374ee6c0f4ed6f4da7b84ff735c&swfupload=1&api=1'"
+                  [buttonCaption]="'Select Images!'" 
+                  [headers]="[
+                    {header: 'Access-Control-Allow-Origin', value: '*'},
+                    {header: 'Access-Control-Allow-Methods', value: 'GET,PUT,POST,DELETE, OPTIONS'},
+                    {header: 'Access-Control-Allow-Headers', value: 'Content-Type'},
+                    {header: 'Access-Control-Allow-Credentials', value: 'true'}
+                  ]"
+                  [dropBoxMessage]="'Drop your images here!'"
+                  (onFileUploadFinish)="imageUploaded($event)" 
+                  (onRemove)="imageRemoved($event)" 
+                  (isPending)="disableSendButton($event)">
+    </image-upload>
+</div>
+<alert [errorMessage]="alertMessage"></alert>

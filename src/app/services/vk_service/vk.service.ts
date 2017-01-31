@@ -50,9 +50,16 @@ export class VkService implements OnInit, AfterViewInit{
         VK.Auth.getLoginStatus(this.getVkStatus);
     }
 
+    vkGetPhotosUploadServer(albumId) {
+        return this.jsonp.request(this.apiRootPathMethods +'photos.getUploadServer?' +
+            '&album_id=' + albumId + this.apiConfigRequest)
+            .map((res) => res.json())
+            .catch((error) => Observable.throw(error || 'Server error')) //...errors i
+    }
+
     vkSearchPhoto(searchWord, offset, count): Observable<any[]>{
         return this.jsonp.request(this.apiRootPathMethods +'photos.search?' +
-            '&q=' + searchWord + '&offset' + offset + '&count=' + count + this.apiConfigRequest)
+            'owner_id=' + localStorage.getItem('mid') + this.apiConfigRequest)
             .map((res) => res.json())
             .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }

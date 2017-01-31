@@ -15,7 +15,7 @@ export class ListPhotoComponent implements AfterViewInit{
     arrPhoto: Photo[]
     alertMessage: string;
     @ViewChild(PhotoComponent)
-    private photoContent: PhotoComponent;
+    private photoInfoContent: PhotoComponent;
     @ViewChild('listPhotoContent')
     private listPhotoContent: ElementRef;
     @Output() backwardFromAlbum: EventEmitter<boolean>;
@@ -27,7 +27,6 @@ export class ListPhotoComponent implements AfterViewInit{
     }
 
     ngAfterViewInit() {
-      console.log(this.listPhotoContent)
       this.hideListPhotoContent()
     }
 
@@ -43,7 +42,7 @@ export class ListPhotoComponent implements AfterViewInit{
         this.clearArrayPhoto()
         this.vkServ.vkGetPhotosInAlbum(albumId)
             .subscribe((response) => this.checkResponse(response),
-                 (error) => this.alertMessage = error)
+                       (error) => this.alertMessage = error)
     }
 
     getAllPhotoByParams(word, offset, count) {
@@ -58,7 +57,7 @@ export class ListPhotoComponent implements AfterViewInit{
 
     showPhotoInfoContent(photo: Photo) {
         this.hideListPhotoContent();
-        this.photoContent.showPhotoInfo(photo.id);
+        this.photoInfoContent.showPhotoInfo(photo.id);
     }
 
     goBackFromAlbumContent() {
