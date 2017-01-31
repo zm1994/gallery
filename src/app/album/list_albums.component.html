@@ -1,10 +1,10 @@
 <div #arrayAlbumContent>
   <div *ngFor="let album of arrayAlbums" class="list-group">
-    <button class="list-group-item" (click)="showAlbumContent(album)">
+    <button class="list-group-item" (click)="getSelectedAlbumContent(album)">
         <img src="{{album.thumb_src}}">
         <div class="title">{{album.title}}</div>
     </button>
   </div>
 </div>
-<album #albumContent (backwardFromAlbum)="onBackwardFromAlbumContent($event)"></album>
+<list-photo #listPhotoContent (backwardFromAlbum)="onBackwardFromAlbumContent($event)"></list-photo>
 <alert [errorMessage]="alertMessage"></alert>

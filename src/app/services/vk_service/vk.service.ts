@@ -73,7 +73,7 @@ export class VkService implements OnInit, AfterViewInit{
     }
 
     vkGetPhotoById(idPhoto) {
-        return this.jsonp.request('https://api.vk.com/method/photos.get?' +
+        return this.jsonp.request('https://api.vk.com/method/photos.getById?' +
             '&photos=' + localStorage.getItem('mid') + '_' + idPhoto +
              +'&extended=1' + this.apiConfigRequest)
             .map((res) =>  res.json())

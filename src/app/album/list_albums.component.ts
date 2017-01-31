@@ -14,8 +14,11 @@ import { AlbumComponent } from '../album/album.component'
 
 
 export class ListAlbumComponent implements AfterViewInit {
-  @ViewChild('albumContent')
-  private albumContent: AlbumComponent;
+  // @ViewChild('albumContent')
+  // private albumContent: AlbumComponent;
+  @ViewChild('listPhotoContent')
+  private listPhotoContent: ListPhotoComponent;
+
 
   @ViewChild('arrayAlbumContent')
   private arrayAlbumContent: ElementRef;
@@ -29,16 +32,25 @@ export class ListAlbumComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.hideArrayAlbumContent();
     this.getAlbums();
   }
 
-  showAlbumContent(album: Album) {
-    this.arrayAlbumContent.nativeElement.hidden = true;
-    this.albumContent.showPhotoContent(album.id)
+  getSelectedAlbumContent(album: Album) {
+    this.hideArrayAlbumContent();
+    this.listPhotoContent.getAllPhotoInAlbum(album.id)
   }
 
   onBackwardFromAlbumContent(event) {
+    this.showArrayAlbumContent();
+  }
+
+  showArrayAlbumContent() {
     this.arrayAlbumContent.nativeElement.hidden = false;
+  }
+
+  hideArrayAlbumContent() {
+    this.arrayAlbumContent.nativeElement.hidden = true;
   }
 
   getAlbums(){
@@ -50,6 +62,7 @@ export class ListAlbumComponent implements AfterViewInit {
     console.log(resp)
     if(!resp.error){
       this.arrayAlbums = <Album[]> resp.response.items
+      this.showArrayAlbumContent();
     }
     else
       this.alertMessage = resp.error.error_msg;

@@ -1,4 +1,4 @@
-import { Component, Output, Input, OnChanges, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, Output, Input, OnChanges, EventEmitter, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Photo } from '../models/photo.model'
 import { VkService } from '../services/vk_service/vk.service'
 
@@ -10,7 +10,7 @@ import { VkService } from '../services/vk_service/vk.service'
   providers: [VkService]
 })
 
-export class PhotoComponent {
+export class PhotoComponent implements AfterViewInit {
   @ViewChild('photoContent')
   private photoContent: ElementRef;
   photoInfo: Photo;
@@ -18,8 +18,19 @@ export class PhotoComponent {
   backwardFromPhotoInfo: EventEmitter<boolean>;
 
   constructor(private vkServ: VkService) {
-    this.photoContent.nativeElement.hidden = true;
     this.backwardFromPhotoInfo = new EventEmitter<boolean>();
+  }
+
+  ngAfterViewInit() {
+    this.hidePhotoContent()
+  }
+
+  showPhotoContent() {
+    this.photoContent.nativeElement.hidden = false;
+  }
+
+  hidePhotoContent() {
+    this.photoContent.nativeElement.hidden = true;
   }
 
   showPhotoInfo(photoId) {
@@ -30,15 +41,19 @@ export class PhotoComponent {
 
   checkResponse(resp) {
     console.log(resp)
-    if (!resp.error)
-      this.photoInfo = <Photo>resp.response.items[0];
+    if (!resp.error){
+      this.photoInfo = <Photo>resp.response[0];
+      this.showPhotoContent();
+    }
     else
       this.alertMessage = resp.error.error_msg;
     console.log(this.photoInfo)
   }
 
   goBackFromPhotoContent() {
-    this.photoContent.nativeElement.hidden = true;
-    this.backwardFromPhotoInfo.emit(true)
+    console.log('hide photo')
+    console.log(this.backwardFromPhotoInfo)
+   this.backwardFromPhotoInfo.emit(true);
+   this.hidePhotoContent()
   }
 }

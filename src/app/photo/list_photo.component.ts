@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import {Component, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import { Photo } from '../models/photo.model'
 import { VkService } from '../services/vk_service/vk.service'
 import {ANGULAR_TABS_DIRECTIVES, TabInterface} from "angular2-tabs/core";
@@ -11,17 +11,32 @@ import { PhotoComponent } from '../photo/photo.component'
     providers: [VkService]
 })
 
-export class ListPhotoComponent {
+export class ListPhotoComponent implements AfterViewInit{
     arrPhoto: Photo[]
     alertMessage: string;
     @ViewChild(PhotoComponent)
     private photoContent: PhotoComponent;
     @ViewChild('listPhotoContent')
     private listPhotoContent: ElementRef;
+    @Output() backwardFromAlbum: EventEmitter<boolean>;
 
     constructor( private vkServ: VkService ) {
       this.arrPhoto = [];
       this.alertMessage = ''
+      this.backwardFromAlbum = new EventEmitter<boolean>();
+    }
+
+    ngAfterViewInit() {
+      console.log(this.listPhotoContent)
+      this.hideListPhotoContent()
+    }
+
+    showListPhotoContent() {
+      this.listPhotoContent.nativeElement.hidden = false;
+    }
+
+    hideListPhotoContent() {
+      this.listPhotoContent.nativeElement.hidden = true;
     }
 
     getAllPhotoInAlbum(albumId) {
@@ -42,18 +57,27 @@ export class ListPhotoComponent {
     }
 
     showPhotoInfoContent(photo: Photo) {
-        this.listPhotoContent.nativeElement.hidden = true;
+        this.hideListPhotoContent();
         this.photoContent.showPhotoInfo(photo.id);
     }
 
+    goBackFromAlbumContent() {
+      this.hideListPhotoContent();
+      console.log(this.backwardFromAlbum)
+      this.backwardFromAlbum.emit(true)
+    }
+
     onBackwardFromPhotoInfo(event) {
-        this.listPhotoContent.nativeElement.hidden = true;
+      console.log('back from photo')
+      this.showListPhotoContent();
     }
 
     checkResponse(resp) {
         console.log(resp)
-        if (!resp.error)
+        if (!resp.error) {
           this.arrPhoto = this.arrPhoto.concat(<Photo[]>resp.response.items);
+          this.showListPhotoContent();
+        }
         else
           this.alertMessage = resp.error.error_msg;
         console.log(this.arrPhoto)
