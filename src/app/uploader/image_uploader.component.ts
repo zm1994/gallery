@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, Directive } from '@angular/core';
+import { Component, OnInit, NgZone, Directive, ViewChild, ElementRef } from '@angular/core';
 import { VkService } from '../services/vk_service/vk.service'
 import { ListPhotoComponent } from '../photo/list_photo.component'
 import { Observable } from 'rxjs/Observable';
@@ -6,8 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { Album } from '../models/album.model'
 import 'rxjs/add/operator/map'
 import 'rxjs/Observable'
-import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+//import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import {Headers} from "ng2-file-upload";
+import { Jsonp } from '@angular/http'
 
 @Component({
     selector: 'image-uploader',
@@ -25,6 +26,15 @@ export class ImageUploaderComponent implements OnInit {
     private alertMessage: string;
     private albums: Album[];
     private serverUploadUrl: string;
+    @ViewChild('uploader')
+    private uploader: ElementRef;
+    files: File[] = [];
+
+    fileChanged(event) {
+    console.log(event.target.files);
+    this.files = event.target.files
+    console.log(this.files)
+  }
   //
   //
   // private zone: NgZone;
@@ -32,7 +42,7 @@ export class ImageUploaderComponent implements OnInit {
   // private progress: number = 0;
   // private response: any = {};
 
-  public uploader:FileUploader;
+  //public uploader:FileUploader;
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
 
@@ -44,11 +54,12 @@ export class ImageUploaderComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-    constructor(private vkServ: VkService) {
+    constructor(private vkServ: VkService, private jsonp: Jsonp) {
         this.albums = []
     }
 
   ngOnInit() {
+    
       this.vkServ.vkGetAlbums().subscribe((response) => this.checkAlbumsResponse(response),
                 (error) => this.alertMessage = error)
 
@@ -56,34 +67,30 @@ export class ImageUploaderComponent implements OnInit {
 
   uploadFile() {
     // this.uploader.uploadAll();
-    let formData: FormData = new FormData(),
-      xhr: XMLHttpRequest = new XMLHttpRequest();
-this.uploader.queue.forEach((file) => {
-  formData.append()
-})
-    for (let i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[i], files[i].name);
-    }
-
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          observer.next(JSON.parse(xhr.response));
-          observer.complete();
-        } else {
-          observer.error(xhr.response);
+    let formData = new FormData();
+      let xhr  = new XMLHttpRequest();
+        for (let file of this.files) {
+            formData.append("photos_list", file, file.name)
         }
-      }
-    };
+        
+        //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
+        
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4) {
+        //         if (xhr.status === 200) {
+        //             console.log(JSON.parse(xhr.response))
+        //         } else {
+        //             console.log(xhr.response)
+        //         }
+        //     }
+        // }
+        // xhr.open("POST", this.serverUploadUrl + "&access_token=" + localStorage.getItem("sid") , true)
+        // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+        // xhr.setRequestHeader('Origin', 'http://localhost:3000')
+        // xhr.send(formData)
 
-    xhr.upload.onprogress = (event) => {
-      this.progress = Math.round(event.loaded / event.total * 100);
-
-      this.progressObserver.next(this.progress);
-    };
-
-    xhr.open('POST', url, true);
-    xhr.send(formData);
+        
+        
   }
 
   uploadShow(){
@@ -142,21 +149,29 @@ this.uploader.queue.forEach((file) => {
     //
     //
     onSelectAlbum(albumId) {
-        this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
-            (error) => this.alertMessage = error)
+        // this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
+        //     (error) => this.alertMessage = error)
+        console.log(VK)
+            VK.api("photos.getUploadServer", {"album_id": albumId}, function (data) {
+          console.log(data)    
+          console.log(VK.Api.createRequest("POST", data.response.upload_url))
+        });
+
+        VK
     }
 
     checkUploadUrl(resp) {
         console.log(resp)
       if(!resp.error){
-      let head = new Array<Header>()
-      head.push(new Header('Access-Control-Allow-Origin', '*'))
-        head.push(new Header('Origin', '*'))
-            this.serverUploadUrl = resp.response.upload_url;
-            this.uploader = new FileUploader({
-              url: this.serverUploadUrl,
-              headers: head
-            });
+      // let head = new Array<Header>()
+      // head.push(new Header('Access-Control-Allow-Origin', '*'))
+      //   head.push(new Header('Origin', '*'))
+      //       this.serverUploadUrl = resp.response.upload_url;
+      //       this.uploader = new FileUploader({
+      //         url: this.serverUploadUrl,
+      //         headers: head
+      //       });
+      this.serverUploadUrl = resp.response.upload_url;
             console.log(this.serverUploadUrl)
             console.log(this.uploader);
 
@@ -173,12 +188,12 @@ this.uploader.queue.forEach((file) => {
     }
 }
 
-class Header implements Headers{
-  name: string;
-  value: string;
+// class Header implements Headers{
+//   name: string;
+//   value: string;
 
-  constructor(name, val) {
-    this.name = name;
-    this.value = val;
-  }
-}
+//   constructor(name, val) {
+//     this.name = name;
+//     this.value = val;
+//   }
+// }
