@@ -38,11 +38,13 @@ import { AlbumComponent } from './album/album.component';
 import { ListAlbumComponent } from  './album/list_albums.component'
 import { PhotoComponent } from './photo/photo.component'
 import { JsonpModule } from '@angular/http';
-import { AuthorizationComponent } from './authorization/authorization.component' 
+import { AuthorizationComponent } from './authorization/authorization.component'
 import { TabsModule } from 'ng2-bootstrap';
 import { ListPhotoComponent } from './photo/list_photo.component';
 import { ImageUploadModule } from 'angular2-image-upload'
 import { ImageUploaderComponent } from './uploader/image_uploader.component'
+//import { Ng2UploaderModule } from 'ng2-uploader';
+import { FileSelectDirective } from 'ng2-file-upload';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -69,6 +71,7 @@ type StoreType = {
     AlbumComponent,
     AlertComponent,
     AuthorizationComponent,
+    FileSelectDirective,
     ImageUploaderComponent,
     ListAlbumComponent,
     ListPhotoComponent,
