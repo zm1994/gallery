@@ -17,11 +17,9 @@
                   <!--(isPending)="disableSendButton($event)">-->
     <!--</image-upload>-->
   <!--<input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>-->
-<<<<<<< HEAD
   <input #uploader type="file" name="file" id="fileupload" (change)="fileChanged($event)" multiple/>
-=======
   <input type="file" (change)="onChange($event)"/>
->>>>>>> b8d6abf785ecf6c781020360b356a02fe2f550a1
+
   <button class="btn" (click)="uploadFile()">Upload</button>
   <button class="btn" (click)="uploadShow()">Show uploader</button>
 </div>
