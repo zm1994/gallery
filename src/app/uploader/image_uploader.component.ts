@@ -63,22 +63,19 @@ export class ImageUploaderComponent implements OnInit {
         
         //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
         
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4) {
-        //         if (xhr.status === 200) {
-        //             console.log(JSON.parse(xhr.response))
-        //         } else {
-        //             console.log(xhr.response)
-        //         }
-        //     }
-        // }
-        // xhr.open("POST", this.serverUploadUrl + "&access_token=" + localStorage.getItem("sid") , true)
-        // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-        // xhr.setRequestHeader('Origin', 'http://localhost:3000')
-        // xhr.send(formData)
-
-        
-        
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log(JSON.parse(xhr.response))
+                } else {
+                    console.log(xhr.response)
+                }
+            }
+        }
+        xhr.open("POST", this.serverUploadUrl, true)
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
+        //xhr.setRequestHeader('Origin', 'http://localhost:3000')
+        xhr.send(formData)
   }
   
 
