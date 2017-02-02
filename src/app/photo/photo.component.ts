@@ -43,7 +43,9 @@ export class PhotoComponent implements AfterViewInit {
   checkResponse(resp) {
     console.log(resp)
     if (!resp.error){
+      console.log(this.photoContent)
       this.photoInfo = <Photo>resp.response[0];
+      console.log(this.photoInfo)
       this.showPhotoContent();
     }
     else

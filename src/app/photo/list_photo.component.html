@@ -6,11 +6,13 @@
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </button>
     </div>
-    <div *ngFor="let photo of arrPhoto" class="list-group row">
-        <div class="list-group-item col-lg-3 col-sm-4 col-6">
-            <a href="#" title="Image 1" (click)="showPhotoInfoContent(photo)">
-                <img src="{{photo.photo_75}}" class="thumbnail img-responsive">
-            </a>
+    <div class="container">
+        <div class="row">
+            <div *ngFor="let photo of arrPhoto" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="thumbnail" (click)="showPhotoInfoContent(photo)">
+                    <div class="image" [style.background-image]="'url(' + photo.photo_604 + ')'"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

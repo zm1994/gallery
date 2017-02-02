@@ -41,7 +41,6 @@ import { JsonpModule } from '@angular/http';
 import { AuthorizationComponent } from './authorization/authorization.component'
 import { TabsModule } from 'ng2-bootstrap';
 import { ListPhotoComponent } from './photo/list_photo.component';
-import { ImageUploadModule } from 'angular2-image-upload'
 import { ImageUploaderComponent } from './uploader/image_uploader.component'
 //import { Ng2UploaderModule } from 'ng2-uploader';
 import { FileSelectDirective } from 'ng2-file-upload';
@@ -88,7 +87,6 @@ type StoreType = {
     JsonpModule,
     HttpModule,
     TabsModule.forRoot(),
-    ImageUploadModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
