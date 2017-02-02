@@ -1,4 +1,5 @@
 <div #arrayAlbumContent>
+  <div *ngIf="currentUser" class="raw">Welcome {{fullName}}</div>
   <div *ngFor="let album of arrayAlbums" class="list-group">
     <button class="list-group-item" (click)="getSelectedAlbumContent(album)">
         <img src="{{album.thumb_src}}">

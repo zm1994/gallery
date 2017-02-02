@@ -6,8 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { Album } from '../models/album.model'
 import 'rxjs/add/operator/map'
 import 'rxjs/Observable'
-import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+//import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import {Headers} from "ng2-file-upload";
+import { Jsonp } from '@angular/http'
 
 @Component({
     selector: 'image-uploader',
@@ -25,6 +26,7 @@ export class ImageUploaderComponent implements OnInit {
     private alertMessage: string;
     private albums: Album[];
     private serverUploadUrl: string;
+    private files: File[]
   //
   //
   // private zone: NgZone;
@@ -32,7 +34,7 @@ export class ImageUploaderComponent implements OnInit {
   // private progress: number = 0;
   // private response: any = {};
 
-  public uploader:FileUploader;
+  // public uploader:FileUploader;
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
 
@@ -44,7 +46,7 @@ export class ImageUploaderComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-    constructor(private vkServ: VkService) {
+    constructor(private vkServ: VkService, private jsonp: Jsonp) {
         this.albums = []
     }
 
@@ -54,40 +56,83 @@ export class ImageUploaderComponent implements OnInit {
 
   }
 
-  uploadFile() {
-    // this.uploader.uploadAll();
-    let formData: FormData = new FormData(),
-      xhr: XMLHttpRequest = new XMLHttpRequest();
-this.uploader.queue.forEach((file) => {
-  formData.append()
-})
-    for (let i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[i], files[i].name);
-    }
-
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          observer.next(JSON.parse(xhr.response));
-          observer.complete();
-        } else {
-          observer.error(xhr.response);
-        }
-      }
-    };
-
-    xhr.upload.onprogress = (event) => {
-      this.progress = Math.round(event.loaded / event.total * 100);
-
-      this.progressObserver.next(this.progress);
-    };
-
-    xhr.open('POST', url, true);
-    xhr.send(formData);
+  onChange(event) {
+    //var files = event.srcElement.files;
+    //console.log(files);
+    this.files = <File[]> event.srcElement.files;
+    console.log(this.files);
   }
 
+  uploadFile() {
+    var formData: any = new FormData();
+    var xhr = new XMLHttpRequest();
+    for(var i = 0; i < this.files.length; i++) {
+      formData.append(`file${i}`, this.files[i], this.files[i].name);
+    }
+    this.jsonp.options(this.serverUploadUrl)
+      .map((res) =>  console.log(res.json()))
+      .catch((error) => Observable.throw(error || 'Server error'))
+    // this.jsonp.post(this.serverUploadUrl, {formData})
+    //   .map((res) =>  console.log(res.json()))
+    //   .catch((error) => Observable.throw(error || 'Server error'))
+    // xhr.onreadystatechange = function () {
+    //   if (xhr.readyState == 4) {
+    //     if (xhr.status == 200) {
+    //       console.log(JSON.parse(xhr.response));
+    //     } else {
+    //       console.log(xhr.response);
+    //     }
+    //   }
+    // }
+    //
+    // xhr.open("POST", this.serverUploadUrl, true);
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000/');
+    // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    // xhr.withCredentials = true;
+    // //xhr.upload = new XMLHttpRequestUpload()
+    // // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000/')
+    // // xhr.setRequestHeader('Access-Control-Request-Headers', 'accept, origin')
+    // // xhr.setRequestHeader('Origin', 'http://localhost:3000/')
+    // xhr.send(formData);
+  }
+
+
+
+
+//   uploadFile() {
+//     // this.uploader.uploadAll();
+//     let formData: FormData = new FormData(),
+//       xhr: XMLHttpRequest = new XMLHttpRequest();
+// this.uploader.queue.forEach((file) => {
+//   formData.append()
+// })
+//     for (let i = 0; i < files.length; i++) {
+//       formData.append("uploads[]", files[i], files[i].name);
+//     }
+//
+//     xhr.onreadystatechange = () => {
+//       if (xhr.readyState === 4) {
+//         if (xhr.status === 200) {
+//           observer.next(JSON.parse(xhr.response));
+//           observer.complete();
+//         } else {
+//           observer.error(xhr.response);
+//         }
+//       }
+//     };
+//
+//     xhr.upload.onprogress = (event) => {
+//       this.progress = Math.round(event.loaded / event.total * 100);
+//
+//       this.progressObserver.next(this.progress);
+//     };
+//
+//     xhr.open('POST', url, true);
+//     xhr.send(formData);
+//   }
+
   uploadShow(){
-    console.log(this.uploader)
+    // console.log(this.uploader)
   }
   //
   // ngOnInit() {
@@ -153,12 +198,12 @@ this.uploader.queue.forEach((file) => {
       head.push(new Header('Access-Control-Allow-Origin', '*'))
         head.push(new Header('Origin', '*'))
             this.serverUploadUrl = resp.response.upload_url;
-            this.uploader = new FileUploader({
-              url: this.serverUploadUrl,
-              headers: head
-            });
+            // this.uploader = new FileUploader({
+            //   url: this.serverUploadUrl,
+            //   headers: head
+            // });
             console.log(this.serverUploadUrl)
-            console.log(this.uploader);
+            // console.log(this.uploader);
 
         }
         else
