@@ -72,6 +72,8 @@ export class ImageUploaderComponent implements OnInit {
                 }
             }
         }
+        console.log(this.serverUploadUrl)
+        console.log(formData)
         xhr.open("POST", this.serverUploadUrl, true)
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
         //xhr.setRequestHeader('Origin', 'http://localhost:3000')
@@ -84,13 +86,13 @@ export class ImageUploaderComponent implements OnInit {
   }
   
   onSelectAlbum(albumId) {
-        // this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
-        //     (error) => this.alertMessage = error)
-        console.log(VK)
-            VK.api("photos.getUploadServer", {"album_id": albumId}, function (data) {
-          console.log(data)    
-          console.log(VK.Api.createRequest("POST", data.response.upload_url))
-        });
+        this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
+            (error) => this.alertMessage = error)
+      
+        //     VK.api("photos.getUploadServer", {"album_id": albumId}, function (data) {
+        //   console.log(data)    
+        //   console.log(VK.Api.createRequest("POST", data.response.upload_url))
+        // });
     }
 
     checkUploadUrl(resp) {

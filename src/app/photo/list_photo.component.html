@@ -1,21 +1,18 @@
 <div #listPhotoContent class="row">
-  <div (click)="goBackFromAlbumContent()">
-    <button class="btn">
+    <div (click)="goBackFromAlbumContent()">
+        <button class="btn">
       <i class="fa fa-chevron-left" aria-hidden="true"></i>
       <i class="fa fa-folder" aria-hidden="true"></i>
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </button>
-  </div>
-    <div *ngFor="let photo of arrPhoto" class="list-group">
-        <button class="list-group-item" (click)="showPhotoInfoContent(photo)">
-            <div class="col-lg-3 col-sm-4 col-6">
-                <a href="#" title="Image 1">
-                    <img src="{{photo.photo_75}}" class="thumbnail img-responsive">
-                </a>
-            </div>
-        </button>
+    </div>
+    <div *ngFor="let photo of arrPhoto" class="list-group row">
+        <div class="list-group-item col-lg-3 col-sm-4 col-6">
+            <a href="#" title="Image 1" (click)="showPhotoInfoContent(photo)">
+                <img src="{{photo.photo_75}}" class="thumbnail img-responsive">
+            </a>
+        </div>
     </div>
 </div>
-<!--<photo #photoContent (backwardFromPhotoInfo)="onBackwardFromPhotoInfo($event)"></photo>-->
 <photo #photoInfoContent (backwardFromPhotoInfo)="onBackwardFromPhotoInfo($event)"></photo>
 <alert [errorMessage]="alertMessage"></alert>
