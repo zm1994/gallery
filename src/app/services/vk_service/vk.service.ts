@@ -30,15 +30,22 @@ export class VkService implements OnInit, AfterViewInit{
     constructor(private jsonp: Jsonp) {
         this.isLogged = false;
         this.login_access = 4;
-    };
-
-    get userId(){
-      return localStorage.getItem('mid')
     }
 
     ngOnInit() {
-        console.log("start get login status on ng On Init")
-        this.checkLoginStatus()
+      console.log("start get login status on ng On Init")
+      this.checkLoginStatus()
+    }
+
+    get userId() {
+      return localStorage.getItem('mid')
+    }
+
+    getUserInfo() {
+      return this.jsonp.request(this.apiRootPathMethods +'users.get?' +
+        '&user_ids=' + this.userId + this.apiConfigRequest)
+        .map((res) => res.json())
+        .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
     checkLoginStatus(){
@@ -59,21 +66,21 @@ export class VkService implements OnInit, AfterViewInit{
 
     vkSearchPhoto(searchWord, offset, count): Observable<any[]>{
         return this.jsonp.request(this.apiRootPathMethods +'photos.search?' +
-            'owner_id=' + localStorage.getItem('mid') + this.apiConfigRequest)
+            'owner_id=' + this.userId + this.apiConfigRequest)
             .map((res) => res.json())
             .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
     vkGetAlbums(): Observable<any[]>{
         return this.jsonp.request(this.apiRootPathMethods + 'photos.getAlbums?' +
-            'owner_id=' + localStorage.getItem('mid') + this.apiConfigRequest)
+            'owner_id=' + this.userId + this.apiConfigRequest)
             .map((res) =>  res.json())
             .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
     vkGetPhotosInAlbum(albomId): Observable<Photo[]> {
         return this.jsonp.request('https://api.vk.com/method/photos.get?' +
-            'owner_id=' + localStorage.getItem('mid') +
+            'owner_id=' + this.userId +
             '&album_id=' + albomId + this.apiConfigRequest)
             .map((res) =>  res.json())
             .catch((error) => Observable.throw(error || 'Server error'))
@@ -81,7 +88,7 @@ export class VkService implements OnInit, AfterViewInit{
 
     vkGetPhotoById(idPhoto) {
         return this.jsonp.request('https://api.vk.com/method/photos.getById?' +
-            '&photos=' + localStorage.getItem('mid') + '_' + idPhoto +
+            '&photos=' + this.userId + '_' + idPhoto +
              +'&extended=1' + this.apiConfigRequest)
             .map((res) =>  res.json())
             .catch((error) => Observable.throw(error || 'Server error'))

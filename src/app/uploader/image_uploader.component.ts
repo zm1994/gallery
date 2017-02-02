@@ -26,6 +26,7 @@ export class ImageUploaderComponent implements OnInit {
     private alertMessage: string;
     private albums: Album[];
     private serverUploadUrl: string;
+<<<<<<< HEAD
     @ViewChild('uploader')
     private uploader: ElementRef;
     files: File[] = [];
@@ -35,6 +36,9 @@ export class ImageUploaderComponent implements OnInit {
     this.files = event.target.files
     console.log(this.files)
   }
+=======
+    private files: File[]
+>>>>>>> b8d6abf785ecf6c781020360b356a02fe2f550a1
   //
   //
   // private zone: NgZone;
@@ -42,7 +46,11 @@ export class ImageUploaderComponent implements OnInit {
   // private progress: number = 0;
   // private response: any = {};
 
+<<<<<<< HEAD
   //public uploader:FileUploader;
+=======
+  // public uploader:FileUploader;
+>>>>>>> b8d6abf785ecf6c781020360b356a02fe2f550a1
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
 
@@ -65,7 +73,15 @@ export class ImageUploaderComponent implements OnInit {
 
   }
 
+  onChange(event) {
+    //var files = event.srcElement.files;
+    //console.log(files);
+    this.files = <File[]> event.srcElement.files;
+    console.log(this.files);
+  }
+
   uploadFile() {
+<<<<<<< HEAD
     // this.uploader.uploadAll();
     let formData = new FormData();
       let xhr  = new XMLHttpRequest();
@@ -92,9 +108,77 @@ export class ImageUploaderComponent implements OnInit {
         
         
   }
+=======
+    var formData: any = new FormData();
+    var xhr = new XMLHttpRequest();
+    for(var i = 0; i < this.files.length; i++) {
+      formData.append(`file${i}`, this.files[i], this.files[i].name);
+    }
+    this.jsonp.options(this.serverUploadUrl)
+      .map((res) =>  console.log(res.json()))
+      .catch((error) => Observable.throw(error || 'Server error'))
+    // this.jsonp.post(this.serverUploadUrl, {formData})
+    //   .map((res) =>  console.log(res.json()))
+    //   .catch((error) => Observable.throw(error || 'Server error'))
+    // xhr.onreadystatechange = function () {
+    //   if (xhr.readyState == 4) {
+    //     if (xhr.status == 200) {
+    //       console.log(JSON.parse(xhr.response));
+    //     } else {
+    //       console.log(xhr.response);
+    //     }
+    //   }
+    // }
+    //
+    // xhr.open("POST", this.serverUploadUrl, true);
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000/');
+    // xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    // xhr.withCredentials = true;
+    // //xhr.upload = new XMLHttpRequestUpload()
+    // // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000/')
+    // // xhr.setRequestHeader('Access-Control-Request-Headers', 'accept, origin')
+    // // xhr.setRequestHeader('Origin', 'http://localhost:3000/')
+    // xhr.send(formData);
+  }
+
+
+
+
+//   uploadFile() {
+//     // this.uploader.uploadAll();
+//     let formData: FormData = new FormData(),
+//       xhr: XMLHttpRequest = new XMLHttpRequest();
+// this.uploader.queue.forEach((file) => {
+//   formData.append()
+// })
+//     for (let i = 0; i < files.length; i++) {
+//       formData.append("uploads[]", files[i], files[i].name);
+//     }
+//
+//     xhr.onreadystatechange = () => {
+//       if (xhr.readyState === 4) {
+//         if (xhr.status === 200) {
+//           observer.next(JSON.parse(xhr.response));
+//           observer.complete();
+//         } else {
+//           observer.error(xhr.response);
+//         }
+//       }
+//     };
+//
+//     xhr.upload.onprogress = (event) => {
+//       this.progress = Math.round(event.loaded / event.total * 100);
+//
+//       this.progressObserver.next(this.progress);
+//     };
+//
+//     xhr.open('POST', url, true);
+//     xhr.send(formData);
+//   }
+>>>>>>> b8d6abf785ecf6c781020360b356a02fe2f550a1
 
   uploadShow(){
-    console.log(this.uploader)
+    // console.log(this.uploader)
   }
   //
   // ngOnInit() {
@@ -163,6 +247,7 @@ export class ImageUploaderComponent implements OnInit {
     checkUploadUrl(resp) {
         console.log(resp)
       if(!resp.error){
+<<<<<<< HEAD
       // let head = new Array<Header>()
       // head.push(new Header('Access-Control-Allow-Origin', '*'))
       //   head.push(new Header('Origin', '*'))
@@ -172,8 +257,18 @@ export class ImageUploaderComponent implements OnInit {
       //         headers: head
       //       });
       this.serverUploadUrl = resp.response.upload_url;
+=======
+      let head = new Array<Header>()
+      head.push(new Header('Access-Control-Allow-Origin', '*'))
+        head.push(new Header('Origin', '*'))
+            this.serverUploadUrl = resp.response.upload_url;
+            // this.uploader = new FileUploader({
+            //   url: this.serverUploadUrl,
+            //   headers: head
+            // });
+>>>>>>> b8d6abf785ecf6c781020360b356a02fe2f550a1
             console.log(this.serverUploadUrl)
-            console.log(this.uploader);
+            // console.log(this.uploader);
 
         }
         else

@@ -17,8 +17,60 @@
                   <!--(isPending)="disableSendButton($event)">-->
     <!--</image-upload>-->
   <!--<input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>-->
+<<<<<<< HEAD
   <input #uploader type="file" name="file" id="fileupload" (change)="fileChanged($event)" multiple/>
+=======
+  <input type="file" (change)="onChange($event)"/>
+>>>>>>> b8d6abf785ecf6c781020360b356a02fe2f550a1
   <button class="btn" (click)="uploadFile()">Upload</button>
   <button class="btn" (click)="uploadShow()">Show uploader</button>
 </div>
 <alert [errorMessage]="alertMessage"></alert>
+<script type="text/javascript">
+  (function(files, callback, aid, gid) {
+
+    api.call('photos.getUploadServer', function(err, data) {
+      if (err) return;
+
+      console.log("Get upload server:");
+
+      console.log(data);
+      vkUpload(data.upload_url, files, function(data) {
+        console.log("Photos save:");
+
+        console.log(data);
+
+        // Почему возвращает aid, а не album_id?
+
+        if (!data.album_id) {
+
+          data.album_id = aid;
+
+        }
+
+        if (!data.group_id) {
+
+          data.group_id = gid;
+
+        }
+
+        api.call('photos.save', callback, data);
+
+      });
+
+    }, {album_id: aid, group_id: gid});
+
+  })({
+
+    "file1": "https://pp.vk.me/c633216/v633216778/f8f6/k9BzDsUwp4w.jpg",
+
+    "file2": "https://pp.vk.me/c625719/v625719778/3b4b3/ncXeHH_E5eE.jpg",
+
+  }, function(err, data) {
+
+    if (err) return;
+
+    console.log(data);
+
+  }, 227532080, 113813852);
+</script>
