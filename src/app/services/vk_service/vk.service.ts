@@ -97,12 +97,13 @@ export class VkService implements OnInit, AfterViewInit{
             .catch((error) => Observable.throw(error || 'Server error'))
     }
 
-    vkGetPhotoById(idPhoto) {
-        return this.jsonp.request('https://api.vk.com/method/photos.getById?' +
-            '&photos=' + this.userId + '_' + idPhoto +
-             +'&extended=1' + this.apiConfigRequest)
-            .map((res) =>  res.json())
-            .catch((error) => Observable.throw(error || 'Server error'))
+    vkGetPhotoById(idPhoto, callback) {
+        VK.Api.call('photos.getById', { "photos":  this.userId + '_' + idPhoto }, callback)
+        // return this.jsonp.request('https://api.vk.com/method/photos.getById?' +
+        //     '&photos=' + this.userId + '_' + idPhoto +
+        //      +'&extended=1' + this.apiConfigRequest)
+        //     .map((res) =>  res.json())
+        //     .catch((error) => Observable.throw(error || 'Server error'))
     }
 
     vkLogin() {

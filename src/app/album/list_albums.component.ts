@@ -26,7 +26,7 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
   private arrayAlbumContent: ElementRef;
 
   // private arrayAlbums: Album[];
-  private arrayAlbums: any[];
+  private arrayAlbums: Album[];
   private alertMessage: string;
 
   constructor(private vkServ: VkService, private ref: ChangeDetectorRef){
@@ -51,14 +51,9 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
     return this.currentUser.first_name + ' ' + this.currentUser.last_name
   }
 
-  name: string = 'petya'
-  changeName() {
-    this.name = 'sdsdsdsd'
-  }
-
   getSelectedAlbumContent(album: Album) {
     this.hideArrayAlbumContent();
-    this.listPhotoContent.getAllPhotoInAlbum(album.id)
+    this.listPhotoContent.getAllPhotoInAlbum(album.aid)
   }
 
   onBackwardFromAlbumContent(event) {
@@ -82,12 +77,14 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
   checkAlbumsResponse = (resp) => {
     console.log(resp)
     if(!resp.error){
-      // this.arrayAlbums = <Album[]> resp.response.items
-      this.arrayAlbums = <any[]> resp.response;
-      console.log(this.arrayAlbums)
-      this.ref.detectChanges()
+      this.arrayAlbums = <Album[]> resp.response;
+      this.arrayAlbums.forEach((item) => { //find thumb image for array Albums
+        this.vkServ.vkGetPhotoById(item.thumb_id, (resp) => {
+          item.thumbPhoto = <Photo> resp.response[0];
+          this.ref.detectChanges()
+        })
+      })
       this.showArrayAlbumContent();
-
     }
     else
       this.alertMessage = resp.error.error_msg;

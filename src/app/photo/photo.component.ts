@@ -16,7 +16,7 @@ export class PhotoComponent implements AfterViewInit {
   private photoContent: ElementRef;
   photoInfo: Photo;
   alertMessage: string;
-  
+
   constructor(private vkServ: VkService) {
     this.backwardFromPhotoInfo = new EventEmitter<boolean>();
   }
@@ -35,9 +35,9 @@ export class PhotoComponent implements AfterViewInit {
   }
 
   showPhotoInfo(photoId) {
-    this.vkServ.vkGetPhotoById(photoId)
-      .subscribe((response) => this.checkResponse(response),
-      (error) => this.alertMessage = error)
+    // this.vkServ.vkGetPhotoById(photoId)
+    //   .subscribe((response) => this.checkResponse(response),
+    //   (error) => this.alertMessage = error)
   }
 
   checkResponse(resp) {
