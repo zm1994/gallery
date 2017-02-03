@@ -57,7 +57,7 @@ export class ListPhotoComponent implements AfterViewInit{
 
     showPhotoInfoContent(photo: Photo) {
         this.hideListPhotoContent();
-        this.photoInfoContent.showPhotoInfo(photo.id);
+        this.photoInfoContent.showPhotoInfo(photo.aid);
     }
 
     goBackFromAlbumContent() {
