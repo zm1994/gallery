@@ -1,11 +1,13 @@
+<div *ngIf="currentUser" class="raw">Welcome {{currentUser.first_name}}</div>
 <div #arrayAlbumContent>
-  <div *ngIf="currentUser" class="raw">Welcome {{fullName}}</div>
+
   <div *ngFor="let album of arrayAlbums" class="list-group">
     <button class="list-group-item" (click)="getSelectedAlbumContent(album)">
-        <img src="{{album.thumb_src}}">
-        <div class="title">{{album.title}}</div>
+        <!--<img src="{{album.thumb_src}}">-->
+        <div class="title">{{album.aid}}</div>
     </button>
   </div>
 </div>
+<button class="btn" (click)="changeName()">Change name</button>
 <!--<list-photo #listPhotoContent (backwardFromAlbum)="onBackwardFromAlbumContent($event)"></list-photo>-->
 <alert [errorMessage]="alertMessage"></alert>

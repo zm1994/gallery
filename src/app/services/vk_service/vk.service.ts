@@ -41,14 +41,20 @@ export class VkService implements OnInit, AfterViewInit{
       return localStorage.getItem('mid')
     }
 
-    getUserInfo(): Observable<any> {
+    getUserInfo(callback) {
       // return this.http.request(this.apiRootPathMethods +'users.get?' +
       // '&user_ids=' + this.userId + this.apiConfigRequest)
       //   .map((res) => res.json())
       //   .catch((error) => Observable.throw(error || 'Server error')) //...errors i)
-      return this.jsonp.request(this.apiRootPathMethods +'users.get?' +
-        '&user_ids=' + this.userId + this.apiConfigRequest)
-        .map((res) => res.json())
+      VK.Api.call('users.get', { "user_ids":  this.userId }, callback)
+      // return this.jsonp.request(this.apiRootPathMethods +'users.get?' +
+      //   '&user_ids=' + this.userId + this.apiConfigRequest)
+      //   .map((res) => res.json())
+      //   .catch((error) => Observable.throw(error || 'Server error')) //...errors i
+    }
+
+  convertToObservable = (resp) => {
+      return new Observable<any>().map(resp)
         .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
@@ -75,11 +81,12 @@ export class VkService implements OnInit, AfterViewInit{
             .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
-    vkGetAlbums(): Observable<any[]>{
-        return this.jsonp.request(this.apiRootPathMethods + 'photos.getAlbums?' +
-            'owner_id=' + this.userId + this.apiConfigRequest)
-            .map((res) =>  res.json())
-            .catch((error) => Observable.throw(error || 'Server error')) //...errors i
+    vkGetAlbums(callback){
+        // return this.jsonp.request(this.apiRootPathMethods + 'photos.getAlbums?' +
+        //     'owner_id=' + this.userId + this.apiConfigRequest)
+        //     .map((res) =>  res.json())
+        //     .catch((error) => Observable.throw(error || 'Server error')) //...errors i
+      VK.Api.call('photos.getAlbums', { "owner_id":  this.userId }, callback)
     }
 
     vkGetPhotosInAlbum(albomId): Observable<Photo[]> {

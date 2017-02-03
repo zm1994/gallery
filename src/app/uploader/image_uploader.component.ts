@@ -41,8 +41,8 @@ export class ImageUploaderComponent implements OnInit {
     }
 
   ngOnInit() {
-      this.vkServ.vkGetAlbums().subscribe((response) => this.checkAlbumsResponse(response),
-                (error) => this.alertMessage = error)
+      // this.vkServ.vkGetAlbums().subscribe((response) => this.checkAlbumsResponse(response),
+      //           (error) => this.alertMessage = error)
 
   }
 
@@ -60,9 +60,9 @@ export class ImageUploaderComponent implements OnInit {
         for (let file of this.files) {
             formData.append("photos_list", file, file.name)
         }
-        
+
         //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
-        
+
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
@@ -79,18 +79,18 @@ export class ImageUploaderComponent implements OnInit {
         //xhr.setRequestHeader('Origin', 'http://localhost:3000')
         xhr.send(formData)
   }
-  
+
 
   uploadShow(){
     // console.log(this.uploader)
   }
-  
+
   onSelectAlbum(albumId) {
         this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
             (error) => this.alertMessage = error)
-      
+
         //     VK.api("photos.getUploadServer", {"album_id": albumId}, function (data) {
-        //   console.log(data)    
+        //   console.log(data)
         //   console.log(VK.Api.createRequest("POST", data.response.upload_url))
         // });
     }

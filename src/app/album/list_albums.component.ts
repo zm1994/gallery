@@ -25,29 +25,36 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
   @ViewChild('arrayAlbumContent')
   private arrayAlbumContent: ElementRef;
 
-  private arrayAlbums: Album[];
+  // private arrayAlbums: Album[];
+  private arrayAlbums: any[];
   private alertMessage: string;
 
-  constructor(private vkServ: VkService){
+  constructor(private vkServ: VkService, private ref: ChangeDetectorRef){
     this.arrayAlbums = [];
     this.alertMessage = ''
   }
 
   ngOnInit() {
-    this.vkServ.getUserInfo().subscribe((response) => this.checkUserResponse(response),
-                                        (error) =>  this.alertMessage = error)
+    // this.vkServ.getUserInfo().subscribe((response) => this.checkUserResponse(response),
+    //                                     (error) =>  this.alertMessage = error)
+    this.vkServ.getUserInfo(this.checkUserResponse);
+
   }
 
   ngAfterViewInit() {
     //this.hideArrayAlbumContent();
-    //this.getAlbums();
+    this.getAlbums();
+
   }
 
   private get fullName() {
     return this.currentUser.first_name + ' ' + this.currentUser.last_name
   }
 
-
+  name: string = 'petya'
+  changeName() {
+    this.name = 'sdsdsdsd'
+  }
 
   getSelectedAlbumContent(album: Album) {
     this.hideArrayAlbumContent();
@@ -67,24 +74,30 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
   }
 
   getAlbums(){
-    this.vkServ.vkGetAlbums().subscribe((response) => this.checkAlbumsResponse(response),
-                                        (error) =>  this.alertMessage = error)
+    // this.vkServ.vkGetAlbums().subscribe((response) => this.checkAlbumsResponse(response),
+    //                                     (error) =>  this.alertMessage = error)
+    this.vkServ.vkGetAlbums(this.checkAlbumsResponse)
   }
 
-  checkAlbumsResponse(resp) {
+  checkAlbumsResponse = (resp) => {
     console.log(resp)
     if(!resp.error){
-      this.arrayAlbums = <Album[]> resp.response.items
+      // this.arrayAlbums = <Album[]> resp.response.items
+      this.arrayAlbums = <any[]> resp.response;
+      console.log(this.arrayAlbums)
+      this.ref.detectChanges()
       this.showArrayAlbumContent();
+
     }
     else
       this.alertMessage = resp.error.error_msg;
   }
 
-  checkUserResponse(resp) {
-    console.log(resp)
+  checkUserResponse = (resp) => {
+
     if(!resp.error){
       this.currentUser = <User> resp.response[0];
+      this.ref.detectChanges()
     }
     else
       this.alertMessage = resp.error.error_msg;
