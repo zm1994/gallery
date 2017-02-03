@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit, AfterViewInit } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
-import { Jsonp, URLSearchParams, RequestOptions, RequestOptionsArgs } from "@angular/http";
+import { Jsonp, Http } from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Image } from '../../models/image.model'
@@ -19,15 +19,15 @@ export class VkService implements OnInit, AfterViewInit{
     login_access: number; // for access to photo by login set number 4
 
     private get apiConfigRequest(){
-        return '&v=5.62&need_covers=1&access_token=' + localStorage.getItem('sid') +
-                '&callback=JSONP_CALLBACK'
+        return '&v=5.62&need_covers=1&access_token=' + localStorage.getItem('sid')
+                 + '&callback=JSONP_CALLBACK'
     }
 
     private get apiRootPathMethods(){
         return 'https://api.vk.com/method/'
     }
 
-    constructor(private jsonp: Jsonp) {
+    constructor(private jsonp: Jsonp, private http: Http) {
         this.isLogged = false;
         this.login_access = 4;
     }
@@ -41,7 +41,11 @@ export class VkService implements OnInit, AfterViewInit{
       return localStorage.getItem('mid')
     }
 
-    getUserInfo() {
+    getUserInfo(): Observable<any> {
+      // return this.http.request(this.apiRootPathMethods +'users.get?' +
+      // '&user_ids=' + this.userId + this.apiConfigRequest)
+      //   .map((res) => res.json())
+      //   .catch((error) => Observable.throw(error || 'Server error')) //...errors i)
       return this.jsonp.request(this.apiRootPathMethods +'users.get?' +
         '&user_ids=' + this.userId + this.apiConfigRequest)
         .map((res) => res.json())
@@ -57,7 +61,7 @@ export class VkService implements OnInit, AfterViewInit{
         VK.Auth.getLoginStatus(this.getVkStatus);
     }
 
-    vkGetPhotosUploadServer(albumId) {
+    vkGetPhotosUploadServer(albumId): Observable<any> {
         return this.jsonp.request(this.apiRootPathMethods +'photos.getUploadServer?' +
             '&album_id=' + albumId + this.apiConfigRequest)
             .map((res) => res.json())

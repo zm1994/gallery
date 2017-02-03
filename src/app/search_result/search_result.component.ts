@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, HostListener, OnInit, ChangeDetectorRef, V
 import { VkService } from '../services/vk_service/vk.service'
 import { ScrollListener } from '../shared/scroll.listener'
 import { ListPhotoComponent } from '../photo/list_photo.component'
+
 import 'rxjs/add/operator/map'
 
 @Component({
