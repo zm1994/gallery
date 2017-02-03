@@ -20,7 +20,7 @@ export class VkService implements OnInit, AfterViewInit{
 
     private get apiConfigRequest(){
         return '&v=5.62&need_covers=1&access_token=' + localStorage.getItem('sid')
-                 + '&callback=JSONP_CALLBACK'
+                 + '?callback=JSONP_CALLBACK'
     }
 
     private get apiRootPathMethods(){

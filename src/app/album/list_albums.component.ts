@@ -39,8 +39,8 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    this.hideArrayAlbumContent();
-    this.getAlbums();
+    //this.hideArrayAlbumContent();
+    //this.getAlbums();
   }
 
   private get fullName() {
