@@ -24,8 +24,6 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
 
   @ViewChild('arrayAlbumContent')
   private arrayAlbumContent: ElementRef;
-
-  // private arrayAlbums: Album[];
   private arrayAlbums: Album[];
   private alertMessage: string;
 

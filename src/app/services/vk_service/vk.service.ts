@@ -17,6 +17,7 @@ declare var VK: any;
 export class VkService implements OnInit, AfterViewInit{
     isLogged: boolean;
     login_access: number; // for access to photo by login set number 4
+    errorMessage: string;
 
     private get apiConfigRequest(){
         return '&v=5.62&need_covers=1&access_token=' + localStorage.getItem('sid')
@@ -35,6 +36,10 @@ export class VkService implements OnInit, AfterViewInit{
     ngOnInit() {
       console.log("start get login status on ng On Init")
       this.checkLoginStatus()
+    }
+
+    get sessionId() {
+        return localStorage.getItem('sid')
     }
 
     get userId() {
@@ -67,21 +72,27 @@ export class VkService implements OnInit, AfterViewInit{
         VK.Auth.getLoginStatus(this.getVkStatus);
     }
 
-    vkGetPhotosUploadServer(albumId): Observable<any> {
-        return this.jsonp.request(this.apiRootPathMethods +'photos.getUploadServer?' +
-            '&album_id=' + albumId + this.apiConfigRequest)
-            .map((res) => res.json())
-            .catch((error) => Observable.throw(error || 'Server error')) //...errors i
+    vkGetPhotosUploadServer(albumId, callback) {
+        VK.api("photos.getUploadServer", {"album_id": albumId}, callback);
+        // return this.jsonp.request(this.apiRootPathMethods +'photos.getUploadServer?' +
+        //     '&album_id=' + albumId + this.apiConfigRequest)
+        //     .map((res) => res.json())
+        //     .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
-    vkSearchPhoto(searchWord, offset, count): Observable<any[]>{
-        return this.jsonp.request(this.apiRootPathMethods +'photos.search?' +
-            'owner_id=' + this.userId + this.apiConfigRequest)
-            .map((res) => res.json())
-            .catch((error) => Observable.throw(error || 'Server error')) //...errors i
+    vkSearchPhoto(searchWord, offset, count, callback){
+        VK.Api.call('photos.search', { 
+            "q": searchWord,
+            "offset": offset,
+            "count": count
+        }, callback)
+        // return this.jsonp.request(this.apiRootPathMethods +'photos.search?' +
+        //     'owner_id=' + this.userId + this.apiConfigRequest)
+        //     .map((res) => res.json())
+        //     .catch((error) => Observable.throw(error || 'Server error')) //...errors i
     }
 
-    vkGetAlbums(callback){
+    vkGetAlbums(callback) {
         // return this.jsonp.request(this.apiRootPathMethods + 'photos.getAlbums?' +
         //     'owner_id=' + this.userId + this.apiConfigRequest)
         //     .map((res) =>  res.json())
@@ -89,12 +100,16 @@ export class VkService implements OnInit, AfterViewInit{
       VK.Api.call('photos.getAlbums', { "owner_id":  this.userId }, callback)
     }
 
-    vkGetPhotosInAlbum(albomId): Observable<Photo[]> {
-        return this.jsonp.request('https://api.vk.com/method/photos.get?' +
-            'owner_id=' + this.userId +
-            '&album_id=' + albomId + this.apiConfigRequest)
-            .map((res) =>  res.json())
-            .catch((error) => Observable.throw(error || 'Server error'))
+    vkGetPhotosInAlbum(albumId, callback) {
+        VK.Api.call('photos.get', { 
+            "owner_id":  this.userId,
+            "album_id": albumId
+        }, callback)
+        // return this.jsonp.request('https://api.vk.com/method/photos.get?' +
+        //     'owner_id=' + this.userId +
+        //     '&album_id=' + albomId + this.apiConfigRequest)
+        //     .map((res) =>  res.json())
+        //     .catch((error) => Observable.throw(error || 'Server error'))
     }
 
     vkGetPhotoById(idPhoto, callback) {
@@ -133,8 +148,12 @@ export class VkService implements OnInit, AfterViewInit{
             this.isLogged = true;
             localStorage.setItem("sid", response.session.sid);
             localStorage.setItem("mid", response.session.mid);
+            // location.reload();
         } else {
+            this.errorMessage = "User is not enable"
             this.isLogged = false;
+            localStorage.removeItem("sid");
+            localStorage.removeItem("mid");
         }
     }
 }

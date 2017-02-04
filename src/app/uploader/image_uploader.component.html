@@ -1,7 +1,13 @@
-<div *ngIf="albums">
+<div *ngIf="!!albums">
     <select class="form-control" id="sel1" (change)="onSelectAlbum($event.target.value)">
-        <option *ngFor="let album of albums" [value]="album.id">{{album.title}}</option>
+        <option *ngFor="let album of albums" [value]="album.aid">{{album.title}}</option>
     </select>
+    <form method="POST" action="{{serverUploadUrl}}" enctype="multipart/form-data"  accept-charset="Access-Control-Allow-Origin"
+    (submit)="myFunction()"
+    >
+      <input type="file" (change)="onChange($event)">
+      <input type="submit" value="Upload">
+    </form>
     <!--<image-upload [max]="5"-->
                   <!--[url]= "'//pu.vk.com/c837124/upload.php?act=do_add&mid=55918433&aid=160915003&…58128d8c10ff413f5&rhash=6afc5d52597948cd7da36474395a4423&swfupload=1&api=1'"-->
                   <!--[buttonCaption]="'Select Images!'"-->
@@ -18,7 +24,7 @@
     <!--</image-upload>-->
   <!--<input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>-->
   <!--<input #uploader type="file" name="file" id="fileupload" (change)="fileChanged($event)" multiple/>-->
-  <input type="file" (change)="onChange($event)"/>
+  
 
   <button class="btn" (click)="uploadFile()">Upload</button>
 </div>

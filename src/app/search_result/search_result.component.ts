@@ -15,10 +15,7 @@ import 'rxjs/add/operator/map'
 export class SearchResultComponent implements OnInit {
     @ViewChild(ListPhotoComponent)
     private listPhotoContent: ListPhotoComponent;
-
     searchWord: string;
-    // alertMessage: string
-    // arrPhoto: Photo[];
     offset: number;
     countSearchPhoto: number;
 
@@ -49,7 +46,6 @@ export class SearchResultComponent implements OnInit {
 
     resetSearchResult(){
         this.offset = 0;
-        // this.arrPhoto = [];
         this.listPhotoContent.clearArrayPhoto()
     }
 }

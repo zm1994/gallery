@@ -1,4 +1,5 @@
-import { Component, OnInit, NgZone, Directive, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgZone, Directive, ViewChild, 
+    ElementRef, ChangeDetectorRef } from '@angular/core';
 import { VkService } from '../services/vk_service/vk.service'
 import { ListPhotoComponent } from '../photo/list_photo.component'
 import { Observable } from 'rxjs/Observable';
@@ -28,7 +29,7 @@ export class ImageUploaderComponent implements OnInit {
     private serverUploadUrl: string;
     @ViewChild('uploader')
     private uploader: ElementRef;
-    files: File[] = [];
+    private files: File[] = [];
 
     fileChanged(event) {
     console.log(event.target.files);
@@ -36,14 +37,15 @@ export class ImageUploaderComponent implements OnInit {
     console.log(this.files)
   }
 
-    constructor(private vkServ: VkService, private jsonp: Jsonp) {
+    constructor(
+        private vkServ: VkService, 
+        private ref: ChangeDetectorRef) {
         this.albums = []
     }
 
   ngOnInit() {
-      // this.vkServ.vkGetAlbums().subscribe((response) => this.checkAlbumsResponse(response),
-      //           (error) => this.alertMessage = error)
-
+      console.log(VK)
+      this.vkServ.vkGetAlbums(this.checkAlbumsResponse)
   }
 
   onChange(event) {
@@ -53,13 +55,16 @@ export class ImageUploaderComponent implements OnInit {
     console.log(this.files);
   }
 
-  uploadFile() {
-    // this.uploader.uploadAll();
-    let formData = new FormData();
+  myFunction() {
+      console.log(VK.Api.supportCORS())
+      console.log("submitted")
+      let formData = new FormData();
       let xhr  = new XMLHttpRequest();
-        for (let file of this.files) {
-            formData.append("photos_list", file, file.name)
+        for (let i = 0; i < this.files.length; i++) {
+            formData.append(`file${i}`, this.files[i], this.files[i].name)
         }
+
+        console.log(formData)
 
         //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
 
@@ -78,6 +83,35 @@ export class ImageUploaderComponent implements OnInit {
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
         //xhr.setRequestHeader('Origin', 'http://localhost:3000')
         xhr.send(formData)
+
+  }
+
+  uploadFile() {
+      
+    // this.uploader.uploadAll();
+    // let formData = new FormData();
+    //   let xhr  = new XMLHttpRequest();
+    //     for (let file of this.files) {
+    //         formData.append("photos_list", file, file.name)
+    //     }
+
+    //     //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
+
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState === 4) {
+    //             if (xhr.status === 200) {
+    //                 console.log(JSON.parse(xhr.response))
+    //             } else {
+    //                 console.log(xhr.response)
+    //             }
+    //         }
+    //     }
+    //     console.log(this.serverUploadUrl)
+    //     console.log(formData)
+    //     xhr.open("POST", this.serverUploadUrl, true)
+    //     xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
+    //     //xhr.setRequestHeader('Origin', 'http://localhost:3000')
+    //     xhr.send(formData)
   }
 
 
@@ -86,16 +120,15 @@ export class ImageUploaderComponent implements OnInit {
   }
 
   onSelectAlbum(albumId) {
-        this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
-            (error) => this.alertMessage = error)
-
-        //     VK.api("photos.getUploadServer", {"album_id": albumId}, function (data) {
-        //   console.log(data)
-        //   console.log(VK.Api.createRequest("POST", data.response.upload_url))
-        // });
+        // this.vkServ.vkGetPhotosUploadServer(albumId).subscribe((response) => this.checkUploadUrl(response),
+        //     (error) => this.alertMessage = error)
+        this.vkServ.vkGetPhotosUploadServer(albumId, (resp) => {
+            console.log(resp)
+            this.serverUploadUrl = resp.response.upload_url
+        });
     }
 
-    checkUploadUrl(resp) {
+    checkUploadUrl = (resp) => {
         console.log(resp)
       if(!resp.error){
         this.serverUploadUrl = resp.response.upload_url;
@@ -105,10 +138,13 @@ export class ImageUploaderComponent implements OnInit {
             this.alertMessage = resp.error.error_msg;
     }
 
-    checkAlbumsResponse(resp) {
-        if(!resp.error)
-            this.albums = <Album[]> resp.response.items;
+    checkAlbumsResponse = (resp) => {
+        console.log(resp)
+        if(!resp.error) {
+            this.albums = <Album[]> resp.response;
+        }
         else
             this.alertMessage = resp.error.error_msg;
+        this.ref.detectChanges();
     }
 }

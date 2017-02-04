@@ -35,9 +35,7 @@ export class AppComponent implements OnInit {
   // private searchPhotoContent: ListPhotoComponent;
   @ViewChild('tabSearchResult')
   private tabSearchResult: ElementRef;
-
   client_id: number;
-  userLogged: boolean;
 
 
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
@@ -49,12 +47,7 @@ export class AppComponent implements OnInit {
     private renderer: Renderer,
     private vkServ: VkService) {
     this.client_id = 5832573; //this is id of app in vk
-  }
-
-  ngDoCheck() {
-    console.log(this.vkServ.isLogged)
-    this.userLogged = this.vkServ.isLogged;
-  }
+  } 
 
   public ngOnInit() {
         VK.init({

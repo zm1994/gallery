@@ -1,4 +1,4 @@
-import { Component, Output, Input } from '@angular/core';
+import { Component, Output, Input, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { VkService } from '../services/vk_service/vk.service'
 
@@ -9,11 +9,19 @@ import { VkService } from '../services/vk_service/vk.service'
     providers: [VkService]
 })
 
-export class AuthorizationComponent {
-   constructor(
-       private vkServ: VkService,
-       private router: Router
-   ){}
+export class AuthorizationComponent implements OnInit, AfterViewInit {
+    userLogged: boolean;
+    constructor(private vkServ: VkService) { }
+
+
+
+    ngOnInit() {
+        this.userLogged = !!this.vkServ.sessionId && !!this.vkServ.userId
+    }
+
+    ngAfterViewInit() {
+        this.userLogged = !!this.vkServ.sessionId && !!this.vkServ.userId
+    }
 
     login() {
         this.vkServ.vkLogin();

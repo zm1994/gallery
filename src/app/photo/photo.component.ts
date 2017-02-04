@@ -1,4 +1,5 @@
-import { Component, Output, Input, OnChanges, EventEmitter, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter, 
+  ElementRef, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Photo } from '../models/photo.model'
 import { VkService } from '../services/vk_service/vk.service'
 
@@ -17,7 +18,7 @@ export class PhotoComponent implements AfterViewInit {
   photoInfo: Photo;
   alertMessage: string;
 
-  constructor(private vkServ: VkService) {
+  constructor(private vkServ: VkService, private ref: ChangeDetectorRef) {
     this.backwardFromPhotoInfo = new EventEmitter<boolean>();
   }
 
@@ -35,21 +36,27 @@ export class PhotoComponent implements AfterViewInit {
   }
 
   showPhotoInfo(photoId) {
+    console.log(photoId)
+    this.vkServ.vkGetPhotoById(photoId, this.checkResponse)
     // this.vkServ.vkGetPhotoById(photoId)
     //   .subscribe((response) => this.checkResponse(response),
     //   (error) => this.alertMessage = error)
   }
 
-  checkResponse(resp) {
+  checkResponse = (resp) => {
     console.log(resp)
     if (!resp.error){
       console.log(this.photoContent)
       this.photoInfo = <Photo>resp.response[0];
       console.log(this.photoInfo)
       this.showPhotoContent();
+      
     }
-    else
+    else {
+      console.log("error")
       this.alertMessage = resp.error.error_msg;
+    }
+    this.ref.detectChanges();
     console.log(this.photoInfo)
   }
 

@@ -6,11 +6,11 @@
       <i class="fa fa-caret-down" aria-hidden="true"></i>
     </button>
     </div>
-    <div class="container">
+    <div *ngIf="arrPhoto" class="container">
         <div class="row">
             <div *ngFor="let photo of arrPhoto" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="thumbnail" (click)="showPhotoInfoContent(photo)">
-                    <div class="image" [style.background-image]="'url(' + photo.photo_604 + ')'"></div>
+                    <div class="image" [style.background-image]="'url(' + photo.src + ')'"></div>
                 </div>
             </div>
         </div>
