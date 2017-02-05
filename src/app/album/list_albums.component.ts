@@ -76,6 +76,7 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
     console.log(resp)
     if(!resp.error){
       this.arrayAlbums = <Album[]> resp.response;
+      console.log(this.arrayAlbums)
       this.arrayAlbums.forEach((item) => { //find thumb image for array Albums
         this.vkServ.vkGetPhotoById(item.thumb_id, (resp) => {
           item.thumbPhoto = <Photo> resp.response[0];

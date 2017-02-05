@@ -1,10 +1,14 @@
-<div *ngIf="currentUser" class="raw">Welcome {{fullName}}</div>
-<div #arrayAlbumContent>
-
-  <div *ngFor="let album of arrayAlbums" class="list-group">
-    <button class="list-group-item" (click)="getSelectedAlbumContent(album)">
-        <img *ngIf="album.thumbPhoto" src="{{album.thumbPhoto.src}}">
-        <div class="title">{{album.aid}}</div>
+<div *ngIf="currentUser" class="raw username">Welcome, {{fullName}}.</div>
+<div #arrayAlbumContent >
+  <div class="list-group">
+    <button *ngFor="let album of arrayAlbums" class="list-group-item d-flex justify-content-start" (click)="getSelectedAlbumContent(album)">
+        <div class="thumb" *ngIf="album.thumbPhoto" [style.background-image]="'url(' + album.thumbPhoto.src_big + ')'"></div>
+        <div class="p-2 album_info">
+          <p class="album_title">{{album.title}}</p>
+          <p><i class="fa fa-folder-open" aria-hidden="true"></i>{{album.size}} files</p>
+          <p><i class="fa fa-clock-o" aria-hidden="true"></i>{{album.updated | timespan}}</p>
+          </div>
+        <i class="fa fa-angle-double-right ml-auto col" aria-hidden="true"></i>
     </button>
   </div>
 </div>

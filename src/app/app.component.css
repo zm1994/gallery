@@ -20,9 +20,15 @@ header{
 
 * { margin: 0; padding: 0; }
 
-.tab{
+/*.tab{
   width: 100px;
   height: 50px;
-}
+}*/
+
+.nav-tabs {
+  padding-left: 10px;
+  padding-top: 9px;
+}    
+
 
 

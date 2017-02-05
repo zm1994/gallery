@@ -44,6 +44,7 @@ import { ListPhotoComponent } from './photo/list_photo.component';
 import { ImageUploaderComponent } from './uploader/image_uploader.component'
 //import { Ng2UploaderModule } from 'ng2-uploader';
 import { FileSelectDirective } from 'ng2-file-upload';
+import { TimeSpanPipe } from './shared/time_span.pipe'
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -79,6 +80,7 @@ type StoreType = {
     PhotoComponent,
     SearchComponent,
     SearchResultComponent,
+    TimeSpanPipe,
     XLargeDirective
   ],
   imports: [ // import Angular's modules

@@ -17,7 +17,7 @@ nav .form-control {
     margin-right: 3px;
     height: 27px;
     padding-right: 4px;
-    padding-left: 19px;
+    padding-left: 22px;
     background: #6e6e6e;   
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -33,7 +33,7 @@ nav .form-control {
 
 .fa-search {
     float: left;
-    margin-top: -21px;
+    margin-top: -22px;
     position: relative;
     z-index: 10;
     margin-left: 5px;
