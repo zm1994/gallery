@@ -1,11 +1,21 @@
-<div id="custom-search-input">
-    <div class="input-group col-md-12">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <input type="search" class="search-query form-control" placeholder="Search photo " 
+<!--<div id="custom-search-input" class="container-fluid">
+    <!--<div class="input-group row" >-->
+        <!--<div class="row" >
+        
+        <!--<input type="search" class="search-query form-control" placeholder="Search photo " -->
+        <!--<input type="search" class="input-large pull-right" placeholder="Search photo " 
         [(ngModel)]="keyword" (keyup.enter)="onEnterInput()" />
         <span class="input-group-btn">
         <button class="btn btn-danger" type="button">
         </button>
         </span>
+    </div>-->
+<!--</div>-->
+
+<nav class="text-right">
+    <div class="wrapper-input">
+        <input class="input-large form-control" type="text" placeholder="Search photo " 
+        [(ngModel)]="keyword" (keyup.enter)="onEnterInput()"/>
+        <span class="fa fa-search" aria-hidden="true"></span>
     </div>
-</div>
+</nav>

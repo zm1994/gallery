@@ -58,31 +58,37 @@ export class ImageUploaderComponent implements OnInit {
   myFunction() {
       console.log(VK.Api.supportCORS())
       console.log("submitted")
-      let formData = new FormData();
-      let xhr  = new XMLHttpRequest();
-        for (let i = 0; i < this.files.length; i++) {
-            formData.append(`file${i}`, this.files[i], this.files[i].name)
-        }
 
-        console.log(formData)
+     // console.log(VK.Api.createRequest('OPTIONS', this.serverUploadUrl))
+      VK.Api.makeRequest(this.serverUploadUrl, (data) => {console.log(data)})
 
-        //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
+    //   let formData = new FormData();
+    //   let xhr  = new XMLHttpRequest();
+    //     for (let i = 0; i < this.files.length; i++) {
+    //         formData.append(`file${i}`, this.files[i], this.files[i].name)
+    //     }
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    console.log(JSON.parse(xhr.response))
-                } else {
-                    console.log(xhr.response)
-                }
-            }
-        }
-        console.log(this.serverUploadUrl)
-        console.log(formData)
-        xhr.open("POST", this.serverUploadUrl, true)
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
-        //xhr.setRequestHeader('Origin', 'http://localhost:3000')
-        xhr.send(formData)
+    //     console.log(formData)
+
+    //     //this.jsonp.post(this.serverUploadUrl, formData ).subscribe(res => console.log(res))
+
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState === 4) {
+    //             if (xhr.status === 200) {
+    //                 console.log(JSON.parse(xhr.response))
+    //             } else {
+    //                 console.log(xhr.response)
+    //             }
+    //         }
+    //     }
+    //     xhr.upload
+    //     console.log(this.serverUploadUrl)
+    //     console.log(formData)
+    //     xhr.open("POST", this.serverUploadUrl, true)
+    //     xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
+    //     xhr.setRequestHeader('Origin', 'https://vk.com')
+    //     xhr.setRequestHeader('content-type', 'multipart/form-data')
+    //     xhr.send(formData)
 
   }
 
