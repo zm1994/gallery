@@ -1,3 +1,40 @@
+nav {
+    margin-top: 0;
+}
+nav a {
+    background-color: transparent;
+    /*color: white;
+    padding: 8px 16px;
+    vertical-align: middle;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;*/
+}
+
+.icon_container_backward {
+    display: inline-block;
+    position: relative;
+    width: 33px;
+    margin-right: 9px;
+}
+
+.fa-lg {
+    font-size: 13px;
+    vertical-align: 5%;
+}
+
+.navbar {
+    width: 100%;
+    padding: 0;
+}
+
+.navbar-brand {
+    color: #7e7e7e;
+    text-align: left;
+    font-size: inherit;
+}
+
 .thumbnail {
     display: block;
     position: relative;
@@ -19,8 +56,18 @@
     background-size: cover;
 }
 
-@media (min-width: 768px){
-    .col-sm-6 {
-        width: 24%;
-    }
+
+
+.fa-caret-down {
+    position: absolute;
+    bottom: 1px;
+    right: -8px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: rotateX;
+    -moz-transform: rotate(315deg);
+    -ms-transform: rotate(315deg);
+    -webkit-transform: rotate(315deg);
+    -o-transform: rotate(315deg);
+    transform: rotate(315deg);
 }

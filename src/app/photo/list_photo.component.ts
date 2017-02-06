@@ -3,6 +3,7 @@ import { Photo } from '../models/photo.model'
 import { VkService } from '../services/vk_service/vk.service'
 import { ANGULAR_TABS_DIRECTIVES, TabInterface } from "angular2-tabs/core";
 import { PhotoComponent } from '../photo/photo.component'
+import { Album } from '../models/album.model'
 
 @Component({
   selector: 'list-photo',
@@ -19,11 +20,13 @@ export class ListPhotoComponent implements AfterViewInit {
   @ViewChild('listPhotoContent')
   private listPhotoContent: ElementRef;
   @Output() backwardFromAlbum: EventEmitter<boolean>;
+  albumName: string;
 
   constructor(private vkServ: VkService, private ref: ChangeDetectorRef) {
     this.arrPhoto = [];
     this.alertMessage = ''
     this.backwardFromAlbum = new EventEmitter<boolean>();
+    this.albumName = '';
   }
 
   ngAfterViewInit() {
@@ -38,9 +41,10 @@ export class ListPhotoComponent implements AfterViewInit {
     this.listPhotoContent.nativeElement.hidden = true;
   }
 
-  getAllPhotoInAlbum(albumId) {
+  getAllPhotoInAlbum(album: Album) {
     this.clearArrayPhoto()
-    this.vkServ.vkGetPhotosInAlbum(albumId, this.checkResponse)
+    this.albumName = album.title
+    this.vkServ.vkGetPhotosInAlbum(album.aid, this.checkResponse)
   }
 
   getAllPhotoByParams(word, offset, count) {
@@ -58,6 +62,7 @@ export class ListPhotoComponent implements AfterViewInit {
 
   goBackFromAlbumContent() {
     this.hideListPhotoContent();
+    this.albumName = '';
     this.backwardFromAlbum.emit(true)
   }
 

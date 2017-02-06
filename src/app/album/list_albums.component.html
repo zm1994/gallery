@@ -1,5 +1,5 @@
-<div *ngIf="currentUser" class="raw username">Welcome, {{fullName}}.</div>
 <div #arrayAlbumContent >
+  <div *ngIf="currentUser" class="row username">Welcome, {{fullName}}.</div>
   <div class="list-group">
     <button *ngFor="let album of arrayAlbums" class="list-group-item d-flex justify-content-start" (click)="getSelectedAlbumContent(album)">
         <div class="thumb" *ngIf="album.thumbPhoto" [style.background-image]="'url(' + album.thumbPhoto.src_big + ')'"></div>
@@ -8,7 +8,7 @@
           <p><i class="fa fa-folder-open" aria-hidden="true"></i>{{album.size}} files</p>
           <p><i class="fa fa-clock-o" aria-hidden="true"></i>{{ (album.updated | amFromUnix) | amTimeAgo}}</p>
           </div>
-        <i class="fa fa-angle-double-right ml-auto fa-3x hidden-sm-down" aria-hidden="true"></i>
+        <i class="fa fa-angle-double-right ml-auto fa-3x hidden-xs-down" aria-hidden="true"></i>
     </button>
   </div>
 </div>

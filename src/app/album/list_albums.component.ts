@@ -51,7 +51,7 @@ export class ListAlbumComponent implements AfterViewInit, OnInit {
 
   getSelectedAlbumContent(album: Album) {
     this.hideArrayAlbumContent();
-    this.listPhotoContent.getAllPhotoInAlbum(album.aid)
+    this.listPhotoContent.getAllPhotoInAlbum(album)
   }
 
   onBackwardFromAlbumContent(event) {

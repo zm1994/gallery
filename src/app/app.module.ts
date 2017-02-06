@@ -34,7 +34,6 @@ import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search_result/search_result.component'
 import { VkService } from './services/vk_service/vk.service'
 import { ScrollListener } from './shared/scroll.listener'
-import { AlbumComponent } from './album/album.component';
 import { ListAlbumComponent } from  './album/list_albums.component'
 import { PhotoComponent } from './photo/photo.component'
 import { JsonpModule } from '@angular/http';
@@ -68,7 +67,6 @@ type StoreType = {
   declarations: [
     AppComponent,
     AboutComponent,
-    AlbumComponent,
     AlertComponent,
     AuthorizationComponent,
     FileSelectDirective,
