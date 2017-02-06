@@ -6,9 +6,9 @@
         <div class="p-2 album_info">
           <p class="album_title">{{album.title}}</p>
           <p><i class="fa fa-folder-open" aria-hidden="true"></i>{{album.size}} files</p>
-          <p><i class="fa fa-clock-o" aria-hidden="true"></i>{{album.updated | timespan}}</p>
+          <p><i class="fa fa-clock-o" aria-hidden="true"></i>{{ (album.updated | amFromUnix) | amTimeAgo}}</p>
           </div>
-        <i class="fa fa-angle-double-right ml-auto col" aria-hidden="true"></i>
+        <i class="fa fa-angle-double-right ml-auto fa-3x hidden-sm-down" aria-hidden="true"></i>
     </button>
   </div>
 </div>

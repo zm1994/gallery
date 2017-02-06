@@ -37,3 +37,16 @@ title{
 .album_title {
   color: #3571ab;
 }
+
+p {
+  color: #b2b2b2;
+}
+
+.fa-folder-open, .fa-clock-o {
+  margin-right: 4px;
+}
+
+.fa-angle-double-right {
+  text-align: right;
+  color: #3571ab;
+}
