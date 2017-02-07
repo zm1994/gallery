@@ -24,15 +24,22 @@
                     <p class="select_photo"><i class="fa fa-check" aria-hidden="true"></i>Select</p>
                 </div>
             </a>
+            <span class="tooltiptext row">
+                <div class="col-md-3">Caption:</div> 
+                <div class="col-md-9">{{photo.text}}
+                    <p *ngIf="photo.likes"><i class="fa  fa-thumbs-o-up" aria-hidden="true"></i>
+                        {{photo.likes.count}}
+                    </p>
+                    <p *ngIf="photo.comments"><i class="fa fa-comment-o" aria-hidden="true"></i>
+                        {{photo.comments.count}}
+                    </p>
+                    <p *ngIf="photo.reposts"><i class="fa fa-share" aria-hidden="true"></i>
+                        {{photo.reposts.count}}
+                    </p>
+                </div> 
+            </span>
         </div>
        </div>
-        <!--<div class="row">
-            <div *ngFor="let photo of arrPhoto" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                <div class="thumbnail" (click)="showPhotoInfoContent(photo)">
-                    <div class="image" [style.background-image]="'url(' + photo.src_big + ')'"></div>
-                </div>
-            </div>
-        </div>-->
     </div>
 </div>
 <photo #photoInfoContent  (backwardFromPhotoInfo)="onBackwardFromPhotoInfo($event)"></photo>

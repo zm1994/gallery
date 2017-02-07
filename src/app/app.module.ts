@@ -44,6 +44,7 @@ import { ImageUploaderComponent } from './uploader/image_uploader.component'
 //import { Ng2UploaderModule } from 'ng2-uploader';
 import { FileSelectDirective } from 'ng2-file-upload';
 import {MomentModule} from 'angular2-moment';
+import { TooltipModule } from 'ng2-bootstrap';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -87,6 +88,7 @@ type StoreType = {
     HttpModule,
     MomentModule,
     TabsModule.forRoot(),
+    TooltipModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

@@ -103,7 +103,8 @@ export class VkService implements OnInit, AfterViewInit{
     vkGetPhotosInAlbum(albumId, callback) {
         VK.Api.call('photos.get', { 
             "owner_id":  this.userId,
-            "album_id": albumId
+            "album_id": albumId,
+            "extended": 1
         }, callback)
         // return this.jsonp.request('https://api.vk.com/method/photos.get?' +
         //     'owner_id=' + this.userId +
@@ -113,7 +114,10 @@ export class VkService implements OnInit, AfterViewInit{
     }
 
     vkGetPhotoById(idPhoto, callback) {
-        VK.Api.call('photos.getById', { "photos":  this.userId + '_' + idPhoto }, callback)
+        VK.Api.call('photos.getById', { 
+            "photos":  this.userId + '_' + idPhoto, 
+            "extended": 1
+        }, callback)
         // return this.jsonp.request('https://api.vk.com/method/photos.getById?' +
         //     '&photos=' + this.userId + '_' + idPhoto +
         //      +'&extended=1' + this.apiConfigRequest)
