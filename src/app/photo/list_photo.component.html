@@ -10,13 +10,29 @@
         </a>
     </nav>
     <div *ngIf="arrPhoto" class="row">
-        <div class="row">
+       <div class="col-md-3 col-xs-4 col-sm-6 col-lg-2" *ngFor="let photo of arrPhoto" >
+        <div class="thumbnail">
+            <a href="#"  (click)="showPhotoInfoContent(photo)">
+                <div class="image hidden-md-up"  style="height: 300px" 
+                    [style.background-image]="'url(' + photo.src_xxbig + ')'"></div>
+                <div class="image hidden-lg-up hidden-sm-down"  style="height: 250px" 
+                    [style.background-image]="'url(' + photo.src_xbig + ')'"></div>
+                <div class="image hidden-md-down"  style="height: 200px" 
+                    [style.background-image]="'url(' + photo.src_big + ')'"></div>
+                <!--<img class="photo_item" src="{{photo.src_big}}" alt="Lights">-->
+                <div class="caption">
+                    <p class="select_photo"><i class="fa fa-check" aria-hidden="true"></i>Select</p>
+                </div>
+            </a>
+        </div>
+       </div>
+        <!--<div class="row">
             <div *ngFor="let photo of arrPhoto" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="thumbnail" (click)="showPhotoInfoContent(photo)">
                     <div class="image" [style.background-image]="'url(' + photo.src_big + ')'"></div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 <photo #photoInfoContent  (backwardFromPhotoInfo)="onBackwardFromPhotoInfo($event)"></photo>

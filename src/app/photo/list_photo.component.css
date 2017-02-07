@@ -35,7 +35,7 @@ nav a {
     font-size: inherit;
 }
 
-.thumbnail {
+/*.thumbnail {
     display: block;
     position: relative;
     padding: 4px;
@@ -47,16 +47,40 @@ nav a {
     border-radius: 4px;
     -webkit-transition: border .2s ease-in-out;
     -o-transition: border .2s ease-in-out;
+}*/
+
+.thumbnail {
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+    margin-bottom: 25px;
+}
+
+.photo_item {
+    width: 50%;
+    height: 80%;
 }
 
 .image {
-    height: 100%;
     width: 100%;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
+.fa-check {
+    color: #1772c4
+}
+.select_photo {
+    color: #85a9bc;
+}
 
+.caption {
+    background-color: #efefef;
+    height: 23px;
+    padding: 1px 4px 4px 5px;
+    border-top: inherit;
+    position: relative;
+} 
 
 .fa-caret-down {
     position: absolute;
