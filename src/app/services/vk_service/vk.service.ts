@@ -14,7 +14,7 @@ declare var VK: any;
 })
 
 @Injectable()
-export class VkService implements OnInit, AfterViewInit{
+export class VkService implements OnInit{
     isLogged: boolean;
     login_access: number; // for access to photo by login set number 4
     errorMessage: string;
@@ -67,10 +67,6 @@ export class VkService implements OnInit, AfterViewInit{
         VK.Auth.getLoginStatus(this.getVkStatus);
     }
 
-    ngAfterViewInit(){
-        console.log("start get login status on ng On After Init")
-        VK.Auth.getLoginStatus(this.getVkStatus);
-    }
 
     vkGetPhotosUploadServer(albumId, callback) {
         VK.api("photos.getUploadServer", {"album_id": albumId}, callback);
@@ -81,7 +77,7 @@ export class VkService implements OnInit, AfterViewInit{
     }
 
     vkSearchPhoto(searchWord, offset, count, callback){
-        VK.Api.call('photos.search', { 
+        VK.Api.call('photos.search', {
             "q": searchWord,
             "offset": offset,
             "count": count
@@ -101,7 +97,7 @@ export class VkService implements OnInit, AfterViewInit{
     }
 
     vkGetPhotosInAlbum(albumId, callback) {
-        VK.Api.call('photos.get', { 
+        VK.Api.call('photos.get', {
             "owner_id":  this.userId,
             "album_id": albumId,
             "extended": 1
@@ -114,8 +110,8 @@ export class VkService implements OnInit, AfterViewInit{
     }
 
     vkGetPhotoById(idPhoto, callback) {
-        VK.Api.call('photos.getById', { 
-            "photos":  this.userId + '_' + idPhoto, 
+        VK.Api.call('photos.getById', {
+            "photos":  this.userId + '_' + idPhoto,
             "extended": 1
         }, callback)
         // return this.jsonp.request('https://api.vk.com/method/photos.getById?' +
@@ -126,7 +122,7 @@ export class VkService implements OnInit, AfterViewInit{
     }
 
     vkLogin() {
-        VK.Auth.login(this.getVkStatus, this.login_access);
+        VK.Auth.login(this.afterLogin, this.login_access);
     };
 
     vkLogOut() {
@@ -144,6 +140,11 @@ export class VkService implements OnInit, AfterViewInit{
         }
     }
 
+    afterLogin = (response) => {
+      this.getVkStatus(response)
+      location.reload();
+    }
+
     getVkStatus = (response) => {
         console.log(response)
         console.log(this)
@@ -152,7 +153,6 @@ export class VkService implements OnInit, AfterViewInit{
             this.isLogged = true;
             localStorage.setItem("sid", response.session.sid);
             localStorage.setItem("mid", response.session.mid);
-            // location.reload();
         } else {
             this.errorMessage = "User is not enable"
             this.isLogged = false;
