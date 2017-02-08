@@ -1,9 +1,35 @@
-img{
+/*img{
     display: inline-block;
     width: 100px;
     height: 200px;
-}
-
+}*/
+/*
 photo_container{
     float: left;
+}*/
+
+nav {
+    margin-top: 0;
+}
+nav a {
+    background-color: transparent;
+    margin: 0;
+}
+
+.navbar {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    color: #7e7e7e;
+    text-align: left;
+    font-size: inherit;
+    border-bottom: 2px solid #7e7e7e;
+    border-radius: 0;
+}
+
+.fa-angle-left{
+    font-size: 23px;
 }

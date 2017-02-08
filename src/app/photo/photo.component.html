@@ -1,13 +1,10 @@
 <div #photoContent>
-    <div (click)="goBackFromPhotoContent()">
-        <button class="btn">
-        <!--<i class="fa fa-chevron-left" aria-hidden="true"></i>-->
-        <!--<i class="fa fa-folder" aria-hidden="true"></i>-->
-        <i class="fa fa-caret-down" aria-hidden="true"></i>
-        </button>
-    </div>
-    <div class="container" *ngIf="photoInfo">
-        <p>Test</p>
+    <nav class="navbar navbar-light">
+        <a class="navbar-brand" href="#" (click)="goBackFromPhotoContent()">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </a>
+    </nav>
+    <div class="row justify-content-center" *ngIf="photoInfo">
         <img src="{{photoInfo.src_big}}">
         <!--<div>{{album.thumbPhoto.src}}</div>-->
     </div>
